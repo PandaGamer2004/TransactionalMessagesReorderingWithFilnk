@@ -1,2 +1,1 @@
-# backend-challange
-Backend challenge for a backend engineer at Lunar
+# Soulution for the Rocket backend challange at Lunar
