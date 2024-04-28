@@ -11,6 +11,7 @@ ext {
     scalaBinaryVersion = '2.12'
     slf4jVersion = '1.7.36'
     log4jVersion = '2.17.1'
+    flinkConnectorVersion = "3.1.0-1.18"
 }
 
 
@@ -36,10 +37,7 @@ applicationDefaultJvmArgs = ["-Dlog4j.configurationFile=log4j2.properties"]
 repositories {
     mavenCentral()
     maven {
-        url "https://repository.apache.org/content/repositories/snapshots"
-        mavenContent {
-            snapshotsOnly()
-        }
+        url "https://repo1.maven.org/maven2/"
     }
 }
 
@@ -61,6 +59,8 @@ dependencies {
     // --------------------------------------------------------------
     implementation "org.apache.flink:flink-streaming-java:${flinkVersion}"
     implementation "org.apache.flink:flink-clients:${flinkVersion}"
+    implementation "org.apache.flink:flink-connector-kafka:${flinkConnectorVersion}"
+
 
     runtimeOnly "org.apache.logging.log4j:log4j-slf4j-impl:${log4jVersion}"
     runtimeOnly "org.apache.logging.log4j:log4j-api:${log4jVersion}"
@@ -70,6 +70,7 @@ dependencies {
     testImplementation("junit:junit:4.12")
     testImplementation("org.apache.flink:flink-test-utils:1.19.0")
 
+    implementation 'io.synadia:flink-connector-nats:1.0.0-beta1'
 }
 
 sourceSets {
