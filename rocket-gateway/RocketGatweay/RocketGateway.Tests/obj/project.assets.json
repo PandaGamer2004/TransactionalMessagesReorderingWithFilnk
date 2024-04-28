@@ -98,19 +98,19 @@
           }
         }
       },
-      "KafkaFlow.Serializer.JsonCore/3.0.7": {
+      "KafkaFlow.Serializer.NewtonsoftJson/3.0.7": {
         "type": "package",
         "dependencies": {
           "KafkaFlow.Abstractions": "3.0.7",
-          "System.Text.Json": "6.0.8"
+          "Newtonsoft.Json": "13.0.1"
         },
         "compile": {
-          "lib/netstandard2.0/KafkaFlow.Serializer.JsonCore.dll": {
+          "lib/netstandard2.0/KafkaFlow.Serializer.NewtonsoftJson.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/netstandard2.0/KafkaFlow.Serializer.JsonCore.dll": {
+          "lib/netstandard2.0/KafkaFlow.Serializer.NewtonsoftJson.dll": {
             "related": ".xml"
           }
         }
@@ -2803,7 +2803,7 @@
           "KafkaFlow": "3.0.7",
           "KafkaFlow.LogHandler.Microsoft": "3.0.7",
           "KafkaFlow.Microsoft.DependencyInjection": "3.0.7",
-          "KafkaFlow.Serializer.JsonCore": "3.0.7",
+          "KafkaFlow.Serializer.NewtonsoftJson": "3.0.7",
           "Microsoft.AspNetCore.OpenApi": "8.0.1",
           "Swashbuckle.AspNetCore": "6.4.0"
         },
@@ -2944,17 +2944,17 @@
         "lib/netstandard2.0/KafkaFlow.Microsoft.DependencyInjection.xml"
       ]
     },
-    "KafkaFlow.Serializer.JsonCore/3.0.7": {
-      "sha512": "nOZSG+ORILAz3A6T8QzdH5YS39cxuTWkq7CDZp70x2irKr1rhUgsKGR+ZEWa5vzaCmlxTE4+v5nFsNE99wwvkg==",
+    "KafkaFlow.Serializer.NewtonsoftJson/3.0.7": {
+      "sha512": "cOxrkjtG27fhGUWScn68YRlNIjc4DQFHwcQMOBsEAy+ZRqov/2SRykAtXdg3/pRxkTnsyoDj+wCM+2/7e+NUXg==",
       "type": "package",
-      "path": "kafkaflow.serializer.jsoncore/3.0.7",
+      "path": "kafkaflow.serializer.newtonsoftjson/3.0.7",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "kafkaflow.serializer.jsoncore.3.0.7.nupkg.sha512",
-        "kafkaflow.serializer.jsoncore.nuspec",
-        "lib/netstandard2.0/KafkaFlow.Serializer.JsonCore.dll",
-        "lib/netstandard2.0/KafkaFlow.Serializer.JsonCore.xml"
+        "kafkaflow.serializer.newtonsoftjson.3.0.7.nupkg.sha512",
+        "kafkaflow.serializer.newtonsoftjson.nuspec",
+        "lib/netstandard2.0/KafkaFlow.Serializer.NewtonsoftJson.dll",
+        "lib/netstandard2.0/KafkaFlow.Serializer.NewtonsoftJson.xml"
       ]
     },
     "librdkafka.redist/2.1.1": {

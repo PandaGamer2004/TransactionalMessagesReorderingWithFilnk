@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QdZpwnl08If4dt25mGVHiy1158sAYXJBu3oQMthD/gJ4EXGDIV9y08ZIAGUuj3NQzP6mHLkuffCGPiRsu99SaQ==",
+  "dgSpecHash": "ckHjkWcynh9A71MU0aGboxrKKsIsUxizlNb46Z0CJMLswHHcVrmt9UkzKzXH+0ldnfbOjHrtAVramup2dJeQlA==",
   "success": true,
   "projectFilePath": "/Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway.Tests/RocketGateway.Tests.csproj",
   "expectedPackageFiles": [
@@ -10,7 +10,7 @@
     "/Users/daniil/.nuget/packages/kafkaflow.abstractions/3.0.7/kafkaflow.abstractions.3.0.7.nupkg.sha512",
     "/Users/daniil/.nuget/packages/kafkaflow.loghandler.microsoft/3.0.7/kafkaflow.loghandler.microsoft.3.0.7.nupkg.sha512",
     "/Users/daniil/.nuget/packages/kafkaflow.microsoft.dependencyinjection/3.0.7/kafkaflow.microsoft.dependencyinjection.3.0.7.nupkg.sha512",
-    "/Users/daniil/.nuget/packages/kafkaflow.serializer.jsoncore/3.0.7/kafkaflow.serializer.jsoncore.3.0.7.nupkg.sha512",
+    "/Users/daniil/.nuget/packages/kafkaflow.serializer.newtonsoftjson/3.0.7/kafkaflow.serializer.newtonsoftjson.3.0.7.nupkg.sha512",
     "/Users/daniil/.nuget/packages/librdkafka.redist/2.1.1/librdkafka.redist.2.1.1.nupkg.sha512",
     "/Users/daniil/.nuget/packages/microsoft.aspnetcore.mvc.testing/8.0.4/microsoft.aspnetcore.mvc.testing.8.0.4.nupkg.sha512",
     "/Users/daniil/.nuget/packages/microsoft.aspnetcore.openapi/8.0.1/microsoft.aspnetcore.openapi.8.0.1.nupkg.sha512",

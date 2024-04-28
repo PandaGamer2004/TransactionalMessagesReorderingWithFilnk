@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0PQdlGU31bJNUneQIZSHyhPDluT5cjjofVSig/Nw3aI/x92YH+e5G9kKjwhwOGQH1Hr4Z2rPR1O+infYgeE+vg==",
+  "dgSpecHash": "a6XEmKhFN+MP7pfmjwhn5U2zJ1kx/JgHZRDM34kf+cq+y6Q5GZ2rNSStc7pkxQC6d3YxWJct1j6C840IS7AIxA==",
   "success": true,
   "projectFilePath": "/Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/RocketGateway.csproj",
   "expectedPackageFiles": [
@@ -9,7 +9,7 @@
     "/Users/daniil/.nuget/packages/kafkaflow.abstractions/3.0.7/kafkaflow.abstractions.3.0.7.nupkg.sha512",
     "/Users/daniil/.nuget/packages/kafkaflow.loghandler.microsoft/3.0.7/kafkaflow.loghandler.microsoft.3.0.7.nupkg.sha512",
     "/Users/daniil/.nuget/packages/kafkaflow.microsoft.dependencyinjection/3.0.7/kafkaflow.microsoft.dependencyinjection.3.0.7.nupkg.sha512",
-    "/Users/daniil/.nuget/packages/kafkaflow.serializer.jsoncore/3.0.7/kafkaflow.serializer.jsoncore.3.0.7.nupkg.sha512",
+    "/Users/daniil/.nuget/packages/kafkaflow.serializer.newtonsoftjson/3.0.7/kafkaflow.serializer.newtonsoftjson.3.0.7.nupkg.sha512",
     "/Users/daniil/.nuget/packages/librdkafka.redist/2.1.1/librdkafka.redist.2.1.1.nupkg.sha512",
     "/Users/daniil/.nuget/packages/microsoft.aspnetcore.openapi/8.0.1/microsoft.aspnetcore.openapi.8.0.1.nupkg.sha512",
     "/Users/daniil/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
@@ -22,6 +22,7 @@
     "/Users/daniil/.nuget/packages/microsoft.extensions.primitives/6.0.0/microsoft.extensions.primitives.6.0.0.nupkg.sha512",
     "/Users/daniil/.nuget/packages/microsoft.io.recyclablememorystream/3.0.0/microsoft.io.recyclablememorystream.3.0.0.nupkg.sha512",
     "/Users/daniil/.nuget/packages/microsoft.openapi/1.4.3/microsoft.openapi.1.4.3.nupkg.sha512",
+    "/Users/daniil/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512",
     "/Users/daniil/.nuget/packages/swashbuckle.aspnetcore/6.4.0/swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
     "/Users/daniil/.nuget/packages/swashbuckle.aspnetcore.swagger/6.4.0/swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
     "/Users/daniil/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.4.0/swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",

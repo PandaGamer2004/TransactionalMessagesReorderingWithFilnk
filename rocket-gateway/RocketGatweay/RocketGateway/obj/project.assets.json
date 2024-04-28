@@ -92,19 +92,19 @@
           }
         }
       },
-      "KafkaFlow.Serializer.JsonCore/3.0.7": {
+      "KafkaFlow.Serializer.NewtonsoftJson/3.0.7": {
         "type": "package",
         "dependencies": {
           "KafkaFlow.Abstractions": "3.0.7",
-          "System.Text.Json": "6.0.8"
+          "Newtonsoft.Json": "13.0.1"
         },
         "compile": {
-          "lib/netstandard2.0/KafkaFlow.Serializer.JsonCore.dll": {
+          "lib/netstandard2.0/KafkaFlow.Serializer.NewtonsoftJson.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/netstandard2.0/KafkaFlow.Serializer.JsonCore.dll": {
+          "lib/netstandard2.0/KafkaFlow.Serializer.NewtonsoftJson.dll": {
             "related": ".xml"
           }
         }
@@ -394,6 +394,19 @@
           }
         }
       },
+      "Newtonsoft.Json/13.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Swashbuckle.AspNetCore/6.4.0": {
         "type": "package",
         "dependencies": {
@@ -645,17 +658,17 @@
         "lib/netstandard2.0/KafkaFlow.Microsoft.DependencyInjection.xml"
       ]
     },
-    "KafkaFlow.Serializer.JsonCore/3.0.7": {
-      "sha512": "nOZSG+ORILAz3A6T8QzdH5YS39cxuTWkq7CDZp70x2irKr1rhUgsKGR+ZEWa5vzaCmlxTE4+v5nFsNE99wwvkg==",
+    "KafkaFlow.Serializer.NewtonsoftJson/3.0.7": {
+      "sha512": "cOxrkjtG27fhGUWScn68YRlNIjc4DQFHwcQMOBsEAy+ZRqov/2SRykAtXdg3/pRxkTnsyoDj+wCM+2/7e+NUXg==",
       "type": "package",
-      "path": "kafkaflow.serializer.jsoncore/3.0.7",
+      "path": "kafkaflow.serializer.newtonsoftjson/3.0.7",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "kafkaflow.serializer.jsoncore.3.0.7.nupkg.sha512",
-        "kafkaflow.serializer.jsoncore.nuspec",
-        "lib/netstandard2.0/KafkaFlow.Serializer.JsonCore.dll",
-        "lib/netstandard2.0/KafkaFlow.Serializer.JsonCore.xml"
+        "kafkaflow.serializer.newtonsoftjson.3.0.7.nupkg.sha512",
+        "kafkaflow.serializer.newtonsoftjson.nuspec",
+        "lib/netstandard2.0/KafkaFlow.Serializer.NewtonsoftJson.dll",
+        "lib/netstandard2.0/KafkaFlow.Serializer.NewtonsoftJson.xml"
       ]
     },
     "librdkafka.redist/2.1.1": {
@@ -1174,6 +1187,33 @@
         "microsoft.openapi.nuspec"
       ]
     },
+    "Newtonsoft.Json/13.0.1": {
+      "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+      "type": "package",
+      "path": "newtonsoft.json/13.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "newtonsoft.json.13.0.1.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
     "Swashbuckle.AspNetCore/6.4.0": {
       "sha512": "eUBr4TW0up6oKDA5Xwkul289uqSMgY0xGN4pnbOIBqCcN9VKGGaPvHX3vWaG/hvocfGDP+MGzMA0bBBKz2fkmQ==",
       "type": "package",
@@ -1479,7 +1519,7 @@
       "KafkaFlow >= 3.0.7",
       "KafkaFlow.LogHandler.Microsoft >= 3.0.7",
       "KafkaFlow.Microsoft.DependencyInjection >= 3.0.7",
-      "KafkaFlow.Serializer.JsonCore >= 3.0.7",
+      "KafkaFlow.Serializer.NewtonsoftJson >= 3.0.7",
       "Microsoft.AspNetCore.OpenApi >= 8.0.1",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
@@ -1533,7 +1573,7 @@
             "target": "Package",
             "version": "[3.0.7, )"
           },
-          "KafkaFlow.Serializer.JsonCore": {
+          "KafkaFlow.Serializer.NewtonsoftJson": {
             "target": "Package",
             "version": "[3.0.7, )"
           },

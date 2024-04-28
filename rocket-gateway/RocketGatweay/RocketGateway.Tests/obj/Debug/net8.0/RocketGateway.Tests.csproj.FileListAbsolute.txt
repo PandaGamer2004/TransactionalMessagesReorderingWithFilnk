@@ -409,7 +409,6 @@
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway.Tests/bin/Debug/net8.0/KafkaFlow.dll
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway.Tests/bin/Debug/net8.0/KafkaFlow.Abstractions.dll
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway.Tests/bin/Debug/net8.0/KafkaFlow.Microsoft.DependencyInjection.dll
-/Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway.Tests/bin/Debug/net8.0/KafkaFlow.Serializer.JsonCore.dll
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway.Tests/bin/Debug/net8.0/Microsoft.AspNetCore.Mvc.Testing.dll
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway.Tests/bin/Debug/net8.0/Microsoft.AspNetCore.OpenApi.dll
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway.Tests/bin/Debug/net8.0/Microsoft.AspNetCore.TestHost.dll
@@ -450,3 +449,4 @@
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway.Tests/obj/Debug/net8.0/MvcTestingAppManifest.json
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway.Tests/bin/Debug/net8.0/appsettings.Production.json
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway.Tests/bin/Debug/net8.0/KafkaFlow.LogHandler.Microsoft.dll
+/Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway.Tests/bin/Debug/net8.0/KafkaFlow.Serializer.NewtonsoftJson.dll

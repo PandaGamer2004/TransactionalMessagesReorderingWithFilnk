@@ -39,7 +39,7 @@ public static class WebApplicationBuilderExtensions
                                 producer => 
                                     producer
                                         .AddMiddlewares(middleware => 
-                                            middleware.AddSerializer<JsonCoreSerializer>()
+                                            middleware.AddSerializer<NewtonsoftJsonSerializer>()
                                             )
                                         .WithProducerConfig(new ProducerConfig
                                         {

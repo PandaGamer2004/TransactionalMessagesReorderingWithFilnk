@@ -7,5 +7,6 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f6de3672_002D86f8_002D4315_002D8c22_002D5c39eea900c6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="RocketGatewayShouldAcceptValidMessagePayloads" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::B39B6A62-2596-4D5C-9B4B-E42607E83891::net8.0::RocketGateway.Tests.Integration.RocketGatewayTests&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::B39B6A62-2596-4D5C-9B4B-E42607E83891::net8.0::RocketGateway.Tests.Unit.Playground.Playgound&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

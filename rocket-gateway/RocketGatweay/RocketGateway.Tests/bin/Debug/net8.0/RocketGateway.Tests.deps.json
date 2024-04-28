@@ -432,19 +432,19 @@
           "lib/netstandard2.0/KafkaFlow.Microsoft.DependencyInjection.dll": {}
         }
       },
-      "KafkaFlow.Serializer.JsonCore/3.0.7": {
+      "KafkaFlow.Serializer.NewtonsoftJson/3.0.7": {
         "dependencies": {
           "KafkaFlow.Abstractions": "3.0.7",
-          "System.Text.Json": "8.0.0"
+          "Newtonsoft.Json": "13.0.1"
         },
         "runtime": {
-          "lib/netstandard2.0/KafkaFlow.Serializer.JsonCore.dll": {
+          "lib/netstandard2.0/KafkaFlow.Serializer.NewtonsoftJson.dll": {
             "assemblyVersion": "3.0.7.0",
             "fileVersion": "3.0.7.0"
           }
         },
         "compile": {
-          "lib/netstandard2.0/KafkaFlow.Serializer.JsonCore.dll": {}
+          "lib/netstandard2.0/KafkaFlow.Serializer.NewtonsoftJson.dll": {}
         }
       },
       "librdkafka.redist/2.1.1": {
@@ -1953,7 +1953,7 @@
           "KafkaFlow": "3.0.7",
           "KafkaFlow.LogHandler.Microsoft": "3.0.7",
           "KafkaFlow.Microsoft.DependencyInjection": "3.0.7",
-          "KafkaFlow.Serializer.JsonCore": "3.0.7",
+          "KafkaFlow.Serializer.NewtonsoftJson": "3.0.7",
           "Microsoft.AspNetCore.OpenApi": "8.0.1",
           "Swashbuckle.AspNetCore": "6.4.0"
         },
@@ -3820,12 +3820,12 @@
       "path": "kafkaflow.microsoft.dependencyinjection/3.0.7",
       "hashPath": "kafkaflow.microsoft.dependencyinjection.3.0.7.nupkg.sha512"
     },
-    "KafkaFlow.Serializer.JsonCore/3.0.7": {
+    "KafkaFlow.Serializer.NewtonsoftJson/3.0.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-nOZSG+ORILAz3A6T8QzdH5YS39cxuTWkq7CDZp70x2irKr1rhUgsKGR+ZEWa5vzaCmlxTE4+v5nFsNE99wwvkg==",
-      "path": "kafkaflow.serializer.jsoncore/3.0.7",
-      "hashPath": "kafkaflow.serializer.jsoncore.3.0.7.nupkg.sha512"
+      "sha512": "sha512-cOxrkjtG27fhGUWScn68YRlNIjc4DQFHwcQMOBsEAy+ZRqov/2SRykAtXdg3/pRxkTnsyoDj+wCM+2/7e+NUXg==",
+      "path": "kafkaflow.serializer.newtonsoftjson/3.0.7",
+      "hashPath": "kafkaflow.serializer.newtonsoftjson.3.0.7.nupkg.sha512"
     },
     "librdkafka.redist/2.1.1": {
       "type": "package",

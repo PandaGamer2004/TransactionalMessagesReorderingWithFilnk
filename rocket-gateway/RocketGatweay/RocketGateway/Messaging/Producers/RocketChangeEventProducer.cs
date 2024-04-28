@@ -15,14 +15,12 @@ public class RocketChangeEventProducer: IRocketChangeEventProducer
 
 
     public Task ProduceAsync(
-        RocketChangeDomainEvent rocket,
-        CancellationToken ct
+        RocketChangeDomainEvent rocket
     )
     {
         var producer = producerAccessor.GetProducer(Producers.RocketMutationEventProducer);
         return producer.ProduceAsync(
             rocket.Metadata.Channel,
-            rocket,
-            ct);
+            rocket);
     }
 }

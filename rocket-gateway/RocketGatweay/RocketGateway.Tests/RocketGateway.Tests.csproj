@@ -24,11 +24,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Unit\" />
+      <ProjectReference Include="..\RocketGateway\RocketGateway.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\RocketGateway\RocketGateway.csproj" />
+      <Folder Include="Unit\" />
     </ItemGroup>
 
 </Project>
