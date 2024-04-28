@@ -1,0 +1,72 @@
+services:
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.2.7
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "22181:2181"
+    networks:
+      - flink-network
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+  kafka:
+    image: confluentinc/cp-kafka:7.6.1
+    hostname: kafka-broker
+    container_name: kafka-broker
+    depends_on: 
+      - zookeeper
+    networks:
+      - flink-network
+    ports:
+      #In case if we will need to run clustered solution 
+      #we should include 9091:9091 as internal topic replication port
+      - "29092:29092"
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      #In case of multi broker deployment:
+      #KAFKA_INTRA_BROKER_LISTENER_NAME:PLAINDEX
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_MIN_INSYNC_REPLICAS: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      #Configuration properties that are important for kafka ui to analize metrics
+      KAFKA_JMX_PORT: 9101
+      KAFKA_JMX_HOSTNAME: localhost
+  flink-jobmanager:
+    image: flink:1.19.0-scala_2.12-java11
+    hostname: jobmanager
+    depends_on: 
+      - kafka
+    networks:
+      - flink-network
+    command: jobmanager
+    ports:
+      - 8081:8081
+    environment:
+      FLINK_PROPERTIES: 
+        |
+        rest.port: 8081
+        rest.address: 0.0.0.0
+        jobmanager.rpc.address: jobmanager
+  flink-taskmanager:
+    image: flink:1.19.0-scala_2.12-java11
+    depends_on:
+      - flink-jobmanager
+    command: taskmanager
+    networks:
+      - flink-network
+    environment:
+      FLINK_PROPERTIES:
+        |
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 1
+  
+networks:
+  flink-network:
