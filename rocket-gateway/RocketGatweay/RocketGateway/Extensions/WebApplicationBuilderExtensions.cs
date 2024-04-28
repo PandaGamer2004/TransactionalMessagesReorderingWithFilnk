@@ -34,7 +34,8 @@ public static class WebApplicationBuilderExtensions
                     .AddCluster(
                         cluster => cluster
                             .WithBrokers(new[] { kafkaConfigurationShared.BootstrapServer })
-                            .AddProducer<RocketChangeEventProducer>(
+                            .AddProducer(
+                                Producers.RocketMutationEventProducer,
                                 producer => 
                                     producer
                                         .AddMiddlewares(middleware => 

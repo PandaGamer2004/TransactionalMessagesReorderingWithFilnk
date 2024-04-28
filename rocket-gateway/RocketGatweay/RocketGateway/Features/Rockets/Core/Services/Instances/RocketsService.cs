@@ -32,9 +32,9 @@ public class RocketsService: IRocketsService
         {
             try
             {
-                await _rocketChangeEventProducer.ProduceAsync(
-                    rocketChangeDomainEvent,
-                    ct);
+                // await _rocketChangeEventProducer.ProduceAsync(
+                //     rocketChangeDomainEvent,
+                //     ct);
                 return OperationResult<VoidResult, string>.CreateSuccess(
                     VoidResult.Instance
                 );

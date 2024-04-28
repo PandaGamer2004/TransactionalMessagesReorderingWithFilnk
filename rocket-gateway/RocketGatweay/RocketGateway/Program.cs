@@ -9,6 +9,7 @@ using RocketGateway.Features.Rockets.Models.Events;
 using RocketGateway.Features.Shared.Mapping.Interfaces;
 using RocketGateway.Features.Shared.Models;
 using RocketGateway.Features.Shared.Validation;
+using RocketGateway.Messaging.Producers;
 
 var builder 
     = WebApplication.CreateBuilder(args);
@@ -16,6 +17,7 @@ var builder
 
 
 
+builder.Services.AddScoped<IRocketChangeEventProducer, RocketChangeEventProducer>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
