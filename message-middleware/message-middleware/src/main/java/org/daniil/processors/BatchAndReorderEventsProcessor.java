@@ -24,7 +24,7 @@ public class BatchAndReorderEventsProcessor extends ProcessFunction<RocketUpdate
 
     private transient ValueState<Integer> lastSendOrderState;
 
-    private FromFlatModelMapper fromFlatModelMapper;
+    private transient FromFlatModelMapper fromFlatModelMapper;
 
 
     public BatchAndReorderEventsProcessor(FromFlatModelMapper fromFlatModelMapper){
