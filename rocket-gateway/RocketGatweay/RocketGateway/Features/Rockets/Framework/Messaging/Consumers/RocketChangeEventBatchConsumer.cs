@@ -7,6 +7,7 @@ using RocketGateway.Features.Rockets.Framework.ExternalModels.Inbound.Events;
 using RocketGateway.Features.Rockets.Framework.ExternalModels.Outbound;
 using RocketGateway.Features.Shared.Mapping.Interfaces;
 using RocketGateway.Features.Shared.Models;
+using RocketGateway.Features.Shared.Results;
 
 
 namespace RocketGateway.Features.Rockets.Framework.Messaging.Consumers;
@@ -29,7 +30,7 @@ public class RocketChangeEventBatchConsumer: IConsumer<BatchedModificationEvent>
     {
         var message = context.Message;
         var aggregatedValidation = OperationResult<RocketChangeEvent, ErrorModel>
-            .Travere(message.BatchedModels, mapper.Map);
+            .Traverse(message.BatchedModels, mapper.Map);
 
         var eventHandlingResult = await aggregatedValidation.FlatMapAsync(rocketEvents =>
         {
@@ -39,14 +40,22 @@ public class RocketChangeEventBatchConsumer: IConsumer<BatchedModificationEvent>
                 RocketChangeDomainEvents = rocketEvents
             };
 
+            IRocketsService rocketsService;
+
             return OperationResult<BatchedCoreModificationEvent, ErrorModel>.FromThrowableOperation(
                 () => serviceProvider.GetRequiredService<IRocketsService>(),
                 _ => new ErrorModel
                 {
                     ErrorCode = ErrorCodes.InvalidDependencyConfiguration,
                     ErrorDescription = "Missing dependency configuration"
-                }).FlatMapAsync(service => service.ProcessFilteredEvent(batchedCoreEvents)
-            );
+                }).FlatMapAsync(rocketsService => rocketsService
+                                            .ProcessFilteredEvent(batchedCoreEvents)
+                                            .ApplyErrorProjectionAsync(err => new ErrorModel
+                                            {
+                                                ErrorCode = ErrorCodes.FailedToProcessEvent,
+                                                ErrorDescription = err
+                                            })
+                );
         });
 
         if (!eventHandlingResult.IsSuccess)

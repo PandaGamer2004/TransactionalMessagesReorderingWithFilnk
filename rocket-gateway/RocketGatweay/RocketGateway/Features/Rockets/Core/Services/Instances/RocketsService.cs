@@ -1,4 +1,8 @@
+using RocketGateway.Extensions;
+using RocketGateway.Features.Rockets.Core.Aggregates;
+using RocketGateway.Features.Rockets.Core.Models;
 using RocketGateway.Features.Rockets.Core.Models.Events;
+using RocketGateway.Features.Rockets.Core.Repositories;
 using RocketGateway.Features.Rockets.Core.Services.Interfaces;
 using RocketGateway.Features.Rockets.Framework.Messaging.Producers;
 using RocketGateway.Features.Shared.Models;
@@ -9,16 +13,17 @@ namespace RocketGateway.Features.Rockets.Core.Services.Instances;
 
 public class RocketsService: IRocketsService
 {
-    private readonly IRocketChangeEventProducer _rocketChangeEventProducer;
+    private readonly IRocketChangeEventProducer rocketChangeEventProducer;
     private readonly IValidator<RocketChangeCoreEvent> changeValidator;
+    private readonly IRocketRepository rocketRepository;
 
     public RocketsService(
         IRocketChangeEventProducer rocketChangeEventProducer, 
-        IValidator<RocketChangeCoreEvent> changeValidator
-        )
+        IValidator<RocketChangeCoreEvent> changeValidator, IRocketRepository rocketRepository)
     {
-        _rocketChangeEventProducer = rocketChangeEventProducer;
+        this.rocketChangeEventProducer = rocketChangeEventProducer;
         this.changeValidator = changeValidator;
+        this.rocketRepository = rocketRepository;
     }
 
     public async Task<OperationResult<VoidResult, string>> ProcessUnfilteredEvent(
@@ -31,7 +36,7 @@ public class RocketsService: IRocketsService
         {
             try
             {
-                await _rocketChangeEventProducer.ProduceAsync(
+                await this.rocketChangeEventProducer.ProduceAsync(
                     rocketChangeCoreEvent);
                 return OperationResult<VoidResult, string>.CreateSuccess(
                     VoidResult.Instance
@@ -50,8 +55,33 @@ public class RocketsService: IRocketsService
         );
     }
 
-    public Task<OperationResult<VoidResult, string>> ProcessFilteredEvent(BatchedCoreModificationEvent batchedCoreModificationEvent, CancellationToken ct = default)
+    public async Task<OperationResult<VoidResult, string>> ProcessFilteredEvent(
+        BatchedCoreModificationEvent batchedCoreModificationEvent, 
+        CancellationToken ct = default
+        )
     {
-        throw new NotImplementedException();
+        var loadedRocket = await this.rocketRepository.LoadRocketBy(
+            RocketId.FromValue(batchedCoreModificationEvent.ChannelId)
+            );
+
+        return await loadedRocket.FlatMap(rocketAggregate =>
+        {
+            var changeDomainEvents
+                = batchedCoreModificationEvent.RocketChangeDomainEvents
+                    .ToArray();
+            //If not domain events was received in batch we can successfully finish the operation 
+            if (!changeDomainEvents.Any())
+            {
+                return OperationResult<RocketAggregate, String>
+                    .CreateError("No events supplied to process");
+            }
+
+            return OperationResult<VoidResult, string>.Traverse(
+                batchedCoreModificationEvent.RocketChangeDomainEvents,
+                rocketAggregate.Apply
+            ).Map(_ => rocketAggregate);
+        }).FlatMapAsync(
+            patchedRocket => rocketRepository.Store(patchedRocket, ct)
+        );
     }
 }

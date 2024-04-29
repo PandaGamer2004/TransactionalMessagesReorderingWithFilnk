@@ -28,7 +28,7 @@ public struct OperationResult<TSuccessModel, TErrorModel>
         => OperationResult<TSuccessModel, TErrorModel>.CreateSuccess(op);
 
     
-    public static OperationResult<IEnumerable<TSuccessModel>, TErrorModel> Travere<TInput, TSuccessModel, TErrorModel>(
+    public static OperationResult<IEnumerable<TSuccessModel>, TErrorModel> Traverse<TInput, TSuccessModel, TErrorModel>(
         IEnumerable<TInput> inputs,
         Func<TInput, OperationResult<TSuccessModel, TErrorModel>> projector
     )

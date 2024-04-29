@@ -1,6 +1,4 @@
-using RocketGateway.Features.Shared.Models;
-
-namespace RocketGateway.Features.Rockets.Models;
+namespace RocketGateway.Features.Rockets.Core.Models.Interfaces;
 
 public interface IRocketMessage
 {

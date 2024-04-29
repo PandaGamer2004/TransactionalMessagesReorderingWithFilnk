@@ -34,7 +34,7 @@ public static class WebApplicationBuilderExtensions
             {
 
                 rider.AddConsumer<RocketChangeEventBatchConsumer>();
-                rider.AddProducer<string, RocketChangeCoreEvent>(
+                rider.AddProducer<Guid, RocketChangeCoreEvent>(
                     kafkaProducerConfiguration.Topic,
                     (ctx, config) =>
                     {

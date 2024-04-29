@@ -1,11 +1,10 @@
 using RocketGateway.Features.Rockets.Framework.ExternalModels.Inbound;
-using RocketGateway.Features.Rockets.Models;
 
 namespace RocketGateway.Features.Rockets.Core.Models;
 
 public class RocketEventDomainMetadata
 {
-    public string Channel { get; set; }
+    public Guid Channel { get; set; }
 
     //In the Channel
     public int MessageNumber { get; set; }

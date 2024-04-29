@@ -6,9 +6,9 @@ namespace RocketGateway.Features.Rockets.Framework.Messaging.Producers;
 
 public class RocketChangeEventProducer: IRocketChangeEventProducer
 {
-    private readonly ITopicProducer<string, RocketChangeCoreEvent> rocketChangeEventProducer;
+    private readonly ITopicProducer<Guid, RocketChangeCoreEvent> rocketChangeEventProducer;
 
-    public RocketChangeEventProducer(ITopicProducer<string, RocketChangeCoreEvent> rocketChangeEventProducer)
+    public RocketChangeEventProducer(ITopicProducer<Guid, RocketChangeCoreEvent> rocketChangeEventProducer)
     {
         this.rocketChangeEventProducer = rocketChangeEventProducer;
     }
@@ -18,14 +18,18 @@ public class RocketChangeEventProducer: IRocketChangeEventProducer
         RocketChangeCoreEvent rocket
     )
     {
-        var configuredPipe = Pipe.Execute<KafkaSendContext<string, RocketChangeCoreEvent>>(context =>
+        var configuredPipe = Pipe.Execute<KafkaSendContext<Guid, RocketChangeCoreEvent>>(context =>
         {
             context.KeySerializer
-                = new MassTransitAsyncJsonSerializer<string>();
+                = new MassTransitAsyncJsonSerializer<Guid>();
             context.ValueSerializer =
                 new MassTransitAsyncJsonSerializer<RocketChangeCoreEvent>();
         });
 
-        return this.rocketChangeEventProducer.Produce(rocket.Metadata.Channel, rocket, configuredPipe);
+        return this.rocketChangeEventProducer.Produce(
+            rocket.Metadata.Channel, 
+            rocket, 
+            configuredPipe
+            );
     }
 }

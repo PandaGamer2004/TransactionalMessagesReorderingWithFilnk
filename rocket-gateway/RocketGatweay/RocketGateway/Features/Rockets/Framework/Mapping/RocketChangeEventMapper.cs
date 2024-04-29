@@ -2,10 +2,10 @@ using System.Text.Json;
 using RocketGateway.Extensions;
 using RocketGateway.Features.Rockets.Core.Models;
 using RocketGateway.Features.Rockets.Core.Models.Events;
+using RocketGateway.Features.Rockets.Core.Models.Interfaces;
 using RocketGateway.Features.Rockets.Core.Models.Messages;
 using RocketGateway.Features.Rockets.Framework.ExternalModels.Inbound.Events;
 using RocketGateway.Features.Rockets.Framework.ExternalModels.Outbound;
-using RocketGateway.Features.Rockets.Models;
 using RocketGateway.Features.Shared.Mapping.Interfaces;
 using RocketGateway.Features.Shared.Models;
 
