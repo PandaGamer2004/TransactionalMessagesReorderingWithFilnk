@@ -25,7 +25,7 @@ mainClassName = 'org.daniil.MessageReorderingAndDeduplicationJob'
 description = """Message reordering and deduplication middleware"""
 
 
-sourceCompatibility = javaVersion
+sourceCompatibility = javaVersion;
 targetCompatibility = javaVersion
 
 tasks.withType(JavaCompile) {
@@ -60,7 +60,8 @@ dependencies {
     implementation "org.apache.flink:flink-streaming-java:${flinkVersion}"
     implementation "org.apache.flink:flink-clients:${flinkVersion}"
     implementation "org.apache.flink:flink-connector-kafka:${flinkConnectorVersion}"
-
+    implementation "org.apache.flink:flink-json:${flinkVersion}"
+    implementation "org.apache.flink:flink-connector-base:${flinkVersion}"
 
     runtimeOnly "org.apache.logging.log4j:log4j-slf4j-impl:${log4jVersion}"
     runtimeOnly "org.apache.logging.log4j:log4j-api:${log4jVersion}"

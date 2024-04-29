@@ -1,19 +1,110 @@
 package org.daniil;
 
+
+import org.apache.flink.api.common.eventtime.WatermarkStrategy;
+import org.apache.flink.connector.base.DeliveryGuarantee;
+import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
+import org.apache.flink.connector.kafka.sink.KafkaSink;
 import org.apache.flink.connector.kafka.source.KafkaSource;
+import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
+import org.apache.flink.formats.json.JsonDeserializationSchema;
+import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.daniil.configuration.models.FlinkConfiguration;
+import org.daniil.configuration.models.RocketUpdatesKafkaConfiguration;
+import org.daniil.models.BatchedRocketUpdateModel;
+import org.daniil.models.RocketUpdateModel;
+import org.daniil.processors.RocketUpdateModelsProcessor;
+
 
 public class MessageReorderingAndDeduplicationJob {
 
 	public static void main(String[] args) throws Exception {
-
-		KafkaSource<String> source = KafkaSource.<String>builder()
-				.setBootstrapServers("localhost:9092")
-				.setTopics("")
-		final StreamExecutionEnvironment env
-				= StreamExecutionEnvironment.getExecutionEnvironment();
+		final StreamExecutionEnvironment executionEnvironment
+				= getConfiguredExecutionEnvironment();
 
 
-		env.execute("Flink is exeucted");
+		final var kafkaConfig = new RocketUpdatesKafkaConfiguration();
+		KafkaSource<RocketUpdateModel> rocketUpdateModelSource
+				= getKafkaSourceForUpdateModels(
+						kafkaConfig
+		);
+
+
+		KafkaSink<BatchedRocketUpdateModel> batchedRocketUpdateModelsSync
+				= getKafkaSink(kafkaConfig);
+
+
+		DataStream<RocketUpdateModel> rocketUpdateModelStream = executionEnvironment.fromSource(
+				rocketUpdateModelSource,
+				WatermarkStrategy.noWatermarks(),
+				kafkaConfig.getSourceName()
+				);
+
+
+		var rocketModelsProcessor = new RocketUpdateModelsProcessor();
+		var outboundStream = rocketModelsProcessor
+				.registerProcessing(rocketUpdateModelStream);
+
+		outboundStream.sinkTo(
+				batchedRocketUpdateModelsSync
+		);
+
+		executionEnvironment.execute(
+				kafkaConfig.getJobName()
+		);
+
 	}
+
+
+	private static StreamExecutionEnvironment getConfiguredExecutionEnvironment(){
+		//As of now leave as constants in future could be extended to dynamically discoverable
+		var flinkConfiguration = new FlinkConfiguration();
+
+		var environment = StreamExecutionEnvironment.getExecutionEnvironment();
+		environment.setMaxParallelism(
+				flinkConfiguration.getMaxParallelism()
+		);
+		environment.setBufferTimeout(
+				flinkConfiguration.getBufferTimeoutMilliseconds()
+		);
+
+		return environment;
+	}
+
+
+	private static KafkaSink<BatchedRocketUpdateModel> getKafkaSink(RocketUpdatesKafkaConfiguration configuration){
+		var serializationSchema
+				= BatchedRocketUpdateModel.getSerializationSchema();
+		return KafkaSink.<BatchedRocketUpdateModel>builder()
+				.setBootstrapServers(configuration.getBootstrapServer())
+				.setRecordSerializer(
+						KafkaRecordSerializationSchema
+								.builder()
+								.setValueSerializationSchema(serializationSchema)
+								.setTopic(configuration.getOutputTopic())
+								.build()
+				)
+				.setDeliveryGuarantee(DeliveryGuarantee.EXACTLY_ONCE)
+				.build();
+	}
+	private static KafkaSource<RocketUpdateModel> getKafkaSourceForUpdateModels(
+			RocketUpdatesKafkaConfiguration configuration
+	) {
+		JsonDeserializationSchema<RocketUpdateModel> deserializationSchema
+				= RocketUpdateModel.getSchema();
+		KafkaSource<RocketUpdateModel> rocketUpdatesSource
+				= KafkaSource.<RocketUpdateModel>builder()
+				.setBootstrapServers(configuration.getBootstrapServer())
+				.setTopics(configuration.getInputTopic())
+				.setGroupId(configuration.getConsumerGroupId())
+				.setStartingOffsets(OffsetsInitializer.earliest())
+				.setValueOnlyDeserializer(deserializationSchema)
+				.build();
+
+		return rocketUpdatesSource;
+	}
+
+
+
 }
