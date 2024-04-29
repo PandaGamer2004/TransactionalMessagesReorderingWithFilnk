@@ -3,13 +3,14 @@ using RocketGateway.Features.Rockets.Core.Models.Events;
 using RocketGateway.Features.Rockets.Core.Services.Instances;
 using RocketGateway.Features.Rockets.Core.Services.Interfaces;
 using RocketGateway.Features.Rockets.Core.Validation;
-using RocketGateway.Features.Rockets.Mapping;
+using RocketGateway.Features.Rockets.Framework.ExternalModels.Inbound.Events;
+using RocketGateway.Features.Rockets.Framework.ExternalModels.Outbound;
+using RocketGateway.Features.Rockets.Framework.Mapping;
+using RocketGateway.Features.Rockets.Framework.Messaging.Producers;
 using RocketGateway.Features.Rockets.Models;
-using RocketGateway.Features.Rockets.Models.Events;
 using RocketGateway.Features.Shared.Mapping.Interfaces;
 using RocketGateway.Features.Shared.Models;
 using RocketGateway.Features.Shared.Validation;
-using RocketGateway.Messaging.Producers;
 
 var builder 
     = WebApplication.CreateBuilder(args);
@@ -23,10 +24,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<IRocketsService, RocketsService>();
 builder.Services
-    .AddSingleton<IMapper<RocketChangeEvent, OperationResult<RocketChangeDomainEvent, ErrorModel>>,
+    .AddSingleton<IMapper<RocketChangeEvent, OperationResult<RocketChangeCoreEvent, ErrorModel>>,
         RocketChangeEventMapper>();
 builder.Services.AddSingleton<
-    IValidator<RocketChangeDomainEvent>, 
+    IValidator<RocketChangeCoreEvent>, 
     RocketUpdateEventValidator
 >();
 

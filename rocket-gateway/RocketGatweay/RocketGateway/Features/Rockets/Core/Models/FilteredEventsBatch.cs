@@ -6,5 +6,5 @@ public class FilteredEventsBatch
 {
     public string ChannelId { get; set; }
     
-    public IEnumerable<RocketChangeDomainEvent> OrderedAndDeduplicatedEvents { get; set; }
+    public IEnumerable<RocketChangeCoreEvent> OrderedAndDeduplicatedEvents { get; set; }
 }

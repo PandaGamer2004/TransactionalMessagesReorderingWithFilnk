@@ -1,21 +1,21 @@
 using RocketGateway.Features.Rockets.Core.Models;
 using RocketGateway.Features.Rockets.Core.Models.Events;
 using RocketGateway.Features.Rockets.Core.Services.Interfaces;
+using RocketGateway.Features.Rockets.Framework.Messaging.Producers;
 using RocketGateway.Features.Shared.Models;
 using RocketGateway.Features.Shared.Results;
 using RocketGateway.Features.Shared.Validation;
-using RocketGateway.Messaging.Producers;
 
 namespace RocketGateway.Features.Rockets.Core.Services.Instances;
 
 public class RocketsService: IRocketsService
 {
     private readonly IRocketChangeEventProducer _rocketChangeEventProducer;
-    private readonly IValidator<RocketChangeDomainEvent> changeValidator;
+    private readonly IValidator<RocketChangeCoreEvent> changeValidator;
 
     public RocketsService(
         IRocketChangeEventProducer rocketChangeEventProducer, 
-        IValidator<RocketChangeDomainEvent> changeValidator
+        IValidator<RocketChangeCoreEvent> changeValidator
         )
     {
         _rocketChangeEventProducer = rocketChangeEventProducer;
@@ -23,17 +23,17 @@ public class RocketsService: IRocketsService
     }
 
     public async Task<OperationResult<VoidResult, string>> ProcessUnfilteredEvent(
-        RocketChangeDomainEvent rocketChangeDomainEvent, 
+        RocketChangeCoreEvent rocketChangeCoreEvent, 
         CancellationToken ct = default
         )
     {
-        var validationResult = changeValidator.Validate(rocketChangeDomainEvent);
+        var validationResult = changeValidator.Validate(rocketChangeCoreEvent);
         if (validationResult.IsValid)
         {
             try
             {
                 await _rocketChangeEventProducer.ProduceAsync(
-                    rocketChangeDomainEvent);
+                    rocketChangeCoreEvent);
                 return OperationResult<VoidResult, string>.CreateSuccess(
                     VoidResult.Instance
                 );

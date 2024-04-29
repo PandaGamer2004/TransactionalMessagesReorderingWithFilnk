@@ -3,7 +3,7 @@ using RocketGateway.Features.Rockets.Models;
 
 namespace RocketGateway.Features.Rockets.Core.Models.Events;
 
-public class RocketChangeDomainEvent
+public class RocketChangeCoreEvent
 {
     public RocketEventDomainMetadata Metadata { get; set; }
 

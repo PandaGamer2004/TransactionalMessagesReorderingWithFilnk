@@ -8,7 +8,7 @@ namespace RocketGateway.Features.Rockets.Core.Services.Interfaces;
 public interface IRocketsService
 {
     public Task<OperationResult<VoidResult, string>> ProcessUnfilteredEvent(
-        RocketChangeDomainEvent rocketChangeDomainEvent,
+        RocketChangeCoreEvent rocketChangeCoreEvent,
         CancellationToken ct = default);
 
     public Task<OperationResult<VoidResult, string>> ProcessFilteredEventBatch(

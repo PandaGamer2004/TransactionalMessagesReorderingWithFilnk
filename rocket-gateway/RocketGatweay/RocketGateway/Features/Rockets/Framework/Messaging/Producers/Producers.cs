@@ -1,4 +1,4 @@
-namespace RocketGateway.Messaging.Producers;
+namespace RocketGateway.Features.Rockets.Framework.Messaging.Producers;
 
 public static class Producers
 {

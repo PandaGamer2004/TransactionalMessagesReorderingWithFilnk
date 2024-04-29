@@ -1,4 +1,4 @@
-namespace RocketGateway.Features.Rockets.Models;
+namespace RocketGateway.Features.Rockets.Framework.ExternalModels.Outbound;
 
 public class ErrorCodes
 {

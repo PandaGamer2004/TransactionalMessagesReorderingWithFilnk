@@ -1,3 +1,4 @@
+using RocketGateway.Features.Rockets.Framework.ExternalModels.Inbound;
 using RocketGateway.Features.Rockets.Models;
 
 namespace RocketGateway.Features.Rockets.Core.Models;

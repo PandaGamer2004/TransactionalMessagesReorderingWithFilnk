@@ -3,14 +3,15 @@ using RocketGateway.Extensions;
 using RocketGateway.Features.Rockets.Core.Models;
 using RocketGateway.Features.Rockets.Core.Models.Events;
 using RocketGateway.Features.Rockets.Core.Models.Messages;
+using RocketGateway.Features.Rockets.Framework.ExternalModels.Inbound.Events;
+using RocketGateway.Features.Rockets.Framework.ExternalModels.Outbound;
 using RocketGateway.Features.Rockets.Models;
-using RocketGateway.Features.Rockets.Models.Events;
 using RocketGateway.Features.Shared.Mapping.Interfaces;
 using RocketGateway.Features.Shared.Models;
 
-namespace RocketGateway.Features.Rockets.Mapping;
+namespace RocketGateway.Features.Rockets.Framework.Mapping;
 
-public class RocketChangeEventMapper: IMapper<RocketChangeEvent, OperationResult<RocketChangeDomainEvent, ErrorModel>>
+public class RocketChangeEventMapper: IMapper<RocketChangeEvent, OperationResult<RocketChangeCoreEvent, ErrorModel>>
 {
     private static readonly Dictionary<RocketMessageType, Type> RocketMessageMappingConventions = new()
     {
@@ -21,7 +22,7 @@ public class RocketChangeEventMapper: IMapper<RocketChangeEvent, OperationResult
         { RocketMessageType.RocketLaunched, typeof(RocketLaunchedMessage) }
     };
 
-    public OperationResult<RocketChangeDomainEvent, ErrorModel> Map(RocketChangeEvent rocketChangeEvent)
+    public OperationResult<RocketChangeCoreEvent, ErrorModel> Map(RocketChangeEvent rocketChangeEvent)
     {
         var eventType = rocketChangeEvent.Metadata.MessageType;
         return OperationResult<string, ErrorModel>.Unit(eventType)
@@ -53,7 +54,7 @@ public class RocketChangeEventMapper: IMapper<RocketChangeEvent, OperationResult
                         });
                     if (castedMessage == null)
                     {
-                        return OperationResult<RocketChangeDomainEvent, ErrorModel>.CreateError(
+                        return OperationResult<RocketChangeCoreEvent, ErrorModel>.CreateError(
                             new ErrorModel
                             {
                                 ErrorCode = ErrorCodes.InvalidPayloadForEventType,
@@ -61,8 +62,8 @@ public class RocketChangeEventMapper: IMapper<RocketChangeEvent, OperationResult
                             });
                     }
 
-                    return OperationResult<RocketChangeDomainEvent, ErrorModel>.CreateSuccess(
-                        new RocketChangeDomainEvent
+                    return OperationResult<RocketChangeCoreEvent, ErrorModel>.CreateSuccess(
+                        new RocketChangeCoreEvent
                         {
                             Message = castedMessage,
                             Metadata = RocketEventDomainMetadata.FromMetadata(
@@ -73,7 +74,7 @@ public class RocketChangeEventMapper: IMapper<RocketChangeEvent, OperationResult
                 }
                 catch (Exception ex)
                 {
-                    return OperationResult<RocketChangeDomainEvent, ErrorModel>.CreateError(new ErrorModel
+                    return OperationResult<RocketChangeCoreEvent, ErrorModel>.CreateError(new ErrorModel
                     {
                         ErrorCode = ErrorCodes.InvalidPayloadForEventType,
                         ErrorDescription = "Failed to parse passed message"

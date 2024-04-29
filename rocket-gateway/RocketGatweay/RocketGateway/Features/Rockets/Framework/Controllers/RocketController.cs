@@ -1,26 +1,23 @@
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using RocketGateway.Extensions;
-using RocketGateway.Features.Rockets.Core.Models;
 using RocketGateway.Features.Rockets.Core.Models.Events;
-using RocketGateway.Features.Rockets.Core.Models.Messages;
 using RocketGateway.Features.Rockets.Core.Services.Interfaces;
+using RocketGateway.Features.Rockets.Framework.ExternalModels.Inbound.Events;
+using RocketGateway.Features.Rockets.Framework.ExternalModels.Outbound;
 using RocketGateway.Features.Rockets.Models;
-using RocketGateway.Features.Rockets.Models.Events;
 using RocketGateway.Features.Shared.Mapping.Interfaces;
 using RocketGateway.Features.Shared.Models;
 
-namespace RocketGateway.Features.Rockets.Controllers;
+namespace RocketGateway.Features.Rockets.Framework.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class RocketController : ControllerBase
 {
     private readonly IRocketsService rocketsService;
-    private readonly IMapper<RocketChangeEvent, OperationResult<RocketChangeDomainEvent, ErrorModel>> inputModelMapper;
+    private readonly IMapper<RocketChangeEvent, OperationResult<RocketChangeCoreEvent, ErrorModel>> inputModelMapper;
     public RocketController(
         IRocketsService rocketsService, 
-        IMapper<RocketChangeEvent, OperationResult<RocketChangeDomainEvent, ErrorModel>> inputModelMapper
+        IMapper<RocketChangeEvent, OperationResult<RocketChangeCoreEvent, ErrorModel>> inputModelMapper
         )
     {
         this.rocketsService = rocketsService;

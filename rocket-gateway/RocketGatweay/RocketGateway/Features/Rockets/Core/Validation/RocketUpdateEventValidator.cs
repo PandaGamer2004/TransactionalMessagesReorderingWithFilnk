@@ -6,9 +6,9 @@ using RocketGateway.Features.Shared.Validation;
 
 namespace RocketGateway.Features.Rockets.Core.Validation;
 
-public class RocketUpdateEventValidator: IValidator<RocketChangeDomainEvent>
+public class RocketUpdateEventValidator: IValidator<RocketChangeCoreEvent>
 {
-    public ValidationResult<string> Validate(RocketChangeDomainEvent model)
+    public ValidationResult<string> Validate(RocketChangeCoreEvent model)
     {
         var message = model.Message;
         if (message is RocketExplodedMessage explodedMessage)

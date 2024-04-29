@@ -14,33 +14,17 @@ public class RocketGatewayTests: IClassFixture<CustomWebApplicationFactory>
     {
         new()
         {
-            Metadata = RocketMetadata.MakeWithType("RocketLaunched"),
+            Metadata = RocketMetadata.MakeWithType("RocketLaunched", 1),
             Message = new RocketLaunchedMessage
             {
                 Mission = "ARTEMIS",
                 Type = "Falcon-9",
-                LaunchSpeed = 900
+                LaunchSpeed = 900,
             }
         },
         new()
         {
-            Metadata = RocketMetadata.MakeWithType("RocketSpeedIncreased"),
-            Message = new RocketSpeedIncreased
-            {
-                By = 3000
-            }
-        },
-        new()
-        {
-            Metadata = RocketMetadata.MakeWithType("RocketSpeedDecreased"),
-            Message = new RocketSpeedDecreased
-            {
-                By = 2500
-            }
-        },
-        new()
-        {
-            Metadata = RocketMetadata.MakeWithType("RocketMissionChanged"),
+            Metadata = RocketMetadata.MakeWithType("RocketMissionChanged", 4),
             Message = new RocketMissionChangedMessage
             {
                 NewMission = "SHUTTLE_MIr"
@@ -48,17 +32,49 @@ public class RocketGatewayTests: IClassFixture<CustomWebApplicationFactory>
         },
         new()
         {
-            Metadata = RocketMetadata.MakeWithType("RocketExploded"),
+            Metadata = RocketMetadata.MakeWithType("RocketExploded", 5),
             Message = new RocketExploded
             {
                 Reason = "Some reason"
             }
-        }
+        },
+        new()
+        {
+            Metadata = RocketMetadata.MakeWithType("RocketExploded", 5),
+            Message = new RocketExploded
+            {
+                Reason = "Some reason"
+            }
+        },
+        new()
+        {
+            Metadata = RocketMetadata.MakeWithType("RocketExploded", 5),
+            Message = new RocketExploded
+            {
+                Reason = "Some reason"
+            }
+        },
+        new()
+        {
+            Metadata = RocketMetadata.MakeWithType("RocketSpeedIncreased", 2),
+            Message = new RocketSpeedIncreased
+            {
+                By = 3000
+            }
+        },
+        new()
+        {
+            Metadata = RocketMetadata.MakeWithType("RocketSpeedDecreased", 3),
+            Message = new RocketSpeedDecreased
+            {
+                By = 2500
+            }
+        },
     };
 
     private RocketEventModel IvalidKeyModel = new RocketEventModel
     {
-        Metadata = RocketMetadata.MakeWithType("invalid"),
+        Metadata = RocketMetadata.MakeWithType("invalid", 1),
         Message = new RocketExploded
         {
             Reason = "Some reason"
@@ -67,7 +83,7 @@ public class RocketGatewayTests: IClassFixture<CustomWebApplicationFactory>
 
     private RocketEventModel InvalidMessageModel = new RocketEventModel
     {
-        Metadata = RocketMetadata.MakeWithType("RocketExploded"),
+        Metadata = RocketMetadata.MakeWithType("RocketExploded", 1),
         Message = new RocketMessageInvalidPayload()
     };
     
@@ -79,7 +95,7 @@ public class RocketGatewayTests: IClassFixture<CustomWebApplicationFactory>
         _webApplicationFactory = webApplicationFactory;
     }
     [Fact]
-    public async Task RocketGatewayShouldAcceptValidMessagePayloads()
+    public async Task   RocketGatewayShouldAcceptValidMessagePayloads()
     {
         //Arrange
         var client = _webApplicationFactory.CreateClient();

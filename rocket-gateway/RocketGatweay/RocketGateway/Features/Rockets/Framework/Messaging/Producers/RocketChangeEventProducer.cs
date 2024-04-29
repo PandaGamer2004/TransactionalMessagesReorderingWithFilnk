@@ -1,8 +1,7 @@
-using KafkaFlow;
 using KafkaFlow.Producers;
 using RocketGateway.Features.Rockets.Core.Models.Events;
 
-namespace RocketGateway.Messaging.Producers;
+namespace RocketGateway.Features.Rockets.Framework.Messaging.Producers;
 
 public class RocketChangeEventProducer: IRocketChangeEventProducer
 {
@@ -15,10 +14,10 @@ public class RocketChangeEventProducer: IRocketChangeEventProducer
 
 
     public Task ProduceAsync(
-        RocketChangeDomainEvent rocket
+        RocketChangeCoreEvent rocket
     )
     {
-        var producer = producerAccessor.GetProducer(Producers.RocketMutationEventProducer);
+        var producer = producerAccessor.GetProducer(Features.Rockets.Framework.Messaging.Producers.Producers.RocketMutationEventProducer);
         return producer.ProduceAsync(
             rocket.Metadata.Channel,
             rocket);

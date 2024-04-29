@@ -28,7 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Messaging\Consumers\" />
+      <Folder Include="Features\Rockets\Framework\" />
     </ItemGroup>
 
 </Project>

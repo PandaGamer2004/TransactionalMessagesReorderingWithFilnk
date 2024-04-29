@@ -10,11 +10,11 @@ public class RocketMetadata
 
     public string MessageType { get; set; }
 
-    public static RocketMetadata MakeWithType(string messageType)
+    public static RocketMetadata MakeWithType(string messageType, int number)
         => new RocketMetadata
         {
             Channel = "1",
-            MessageNumber = 1,
+            MessageNumber = number,
             MessageTime = DateTime.Now,
             MessageType = messageType
         };

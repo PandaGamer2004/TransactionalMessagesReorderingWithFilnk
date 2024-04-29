@@ -1,3 +1,5 @@
+using RocketGateway.Extensions;
+
 namespace RocketGateway.Features.Shared.Models;
 
 public struct OperationResult<TSuccessModel, TErrorModel>
@@ -24,4 +26,20 @@ public struct OperationResult<TSuccessModel, TErrorModel>
 
     public static OperationResult<TSuccessModel, TErrorModel> Unit(TSuccessModel op)
         => OperationResult<TSuccessModel, TErrorModel>.CreateSuccess(op);
+
+    
+    public static OperationResult<IEnumerable<TSuccessModel>, TErrorModel> Travere<TInput>(
+        IEnumerable<TInput> inputs,
+        Func<TInput, OperationResult<TSuccessModel, TErrorModel>> projector
+    )
+    {
+        var aggregator = OperationResult<LinkedList<TSuccessModel>, TErrorModel>
+            .Unit(new LinkedList<TSuccessModel>());
+        
+        return inputs.Select(projector).Aggregate(aggregator, 
+            (agg, it) 
+                => agg.FlatMap(list => it.Map(list.Prepend)
+                )
+        ).Map(it => it.AsEnumerable());
+    }
 }

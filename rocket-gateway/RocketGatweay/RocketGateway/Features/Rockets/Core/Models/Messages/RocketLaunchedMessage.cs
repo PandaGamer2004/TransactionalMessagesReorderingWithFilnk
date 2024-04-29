@@ -1,5 +1,4 @@
 using RocketGateway.Features.Rockets.Models;
-using RocketGateway.Features.Shared.Models;
 
 namespace RocketGateway.Features.Rockets.Core.Models.Messages;
 

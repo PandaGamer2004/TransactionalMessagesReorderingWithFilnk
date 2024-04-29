@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace RocketGateway.Features.Rockets.Models.Events;
+namespace RocketGateway.Features.Rockets.Framework.ExternalModels.Inbound.Events;
 
 public class RocketChangeEvent {
     

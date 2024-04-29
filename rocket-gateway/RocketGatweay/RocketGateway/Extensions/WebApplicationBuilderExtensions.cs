@@ -6,7 +6,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using RocketGateway.Configurations;
 using RocketGateway.Exceptions;
-using RocketGateway.Messaging.Producers;
+using RocketGateway.Features.Rockets.Framework.Messaging.Consumers;
+using RocketGateway.Features.Rockets.Framework.Messaging.Producers;
+using AutoOffsetReset = KafkaFlow.AutoOffsetReset;
 
 namespace RocketGateway.Extensions;
 
@@ -15,20 +17,24 @@ public static class WebApplicationBuilderExtensions
     public static WebApplicationBuilder AddKafka(
         this WebApplicationBuilder builder)
     {
+
         KafkaConfigurationShared kafkaConfigurationShared = builder.Configuration
-                                                                .GetSection(KafkaConfigurationShared.ConfigurationKey)
-                                                                .Get<KafkaConfigurationShared>()
-                                                            ?? throw new ConfigurationException(
-                                                                $"Failed to bind configuration on {KafkaConfigurationShared.ConfigurationKey}"
-                                                            );
+            .GetModelOrThrow<KafkaConfigurationShared>(KafkaConfigurationShared.ConfigurationKey);
 
-        KafkaProducerConfiguration kafkaProducerConfiguration = builder.Configuration
-                                                                    .GetSection(KafkaProducerConfiguration.ConfigurationKey)
-                                                                    .Get<KafkaProducerConfiguration>()
-                                                                ?? throw new ConfigurationException(
-                                                                    $"Failed to bind configuration on {KafkaConfigurationShared.ConfigurationKey}"
-                                                                );
+        KafkaProducerConfiguration kafkaProducerConfiguration =
+            builder.Configuration.GetModelOrThrow<KafkaProducerConfiguration>(
+                KafkaProducerConfiguration.ConfigurationKey);
 
+        KafkaConsumerConfiguration kafkaConsumerConfiguration =
+            builder.Configuration.GetModelOrThrow<KafkaConsumerConfiguration>(
+                KafkaConsumerConfiguration.ConfigurationSection
+            );
+
+        var kafkaSerializerSettings = new JsonSerializerSettings
+        {
+            ContractResolver = new CamelCasePropertyNamesContractResolver()
+        };
+        
         builder.Services
             .AddKafka(kafka =>
                 kafka.
@@ -36,15 +42,26 @@ public static class WebApplicationBuilderExtensions
                     .AddCluster(
                         cluster => cluster
                             .WithBrokers(new[] { kafkaConfigurationShared.BootstrapServer })
+                            .AddConsumer(consumer => 
+                                consumer
+                                    .WithAutoOffsetReset(kafkaConsumerConfiguration.AutoOffsetReset)
+                                    .Topic(kafkaConsumerConfiguration.Topic)
+                                    .WithGroupId(kafkaConsumerConfiguration.GroupId)
+                                    .WithWorkersCount(kafkaConsumerConfiguration.Workers)
+                                    .WithBufferSize(kafkaConsumerConfiguration.BufferSize)
+                                    .AddMiddlewares(m => 
+                                        m.AddDeserializer<NewtonsoftJsonDeserializer>(
+                                            _ => new NewtonsoftJsonDeserializer(kafkaSerializerSettings))
+                                         .AddTypedHandlers(h => h.AddHandler<RocketChangeEventBatchConsumer>())
+                                        )
+                                    
+                                )
                             .AddProducer(
                                 Producers.RocketMutationEventProducer,
                                 producer => 
                                     producer
                                         .AddMiddlewares(middleware => 
-                                            middleware.AddSerializer<NewtonsoftJsonSerializer>(_ => new NewtonsoftJsonSerializer(new JsonSerializerSettings
-                                            {
-                                                ContractResolver = new CamelCasePropertyNamesContractResolver()
-                                            })))
+                                            middleware.AddSerializer<NewtonsoftJsonSerializer>(_ => new NewtonsoftJsonSerializer(kafkaSerializerSettings)))
                                         .WithProducerConfig(new ProducerConfig
                                         {
                                             EnableIdempotence = true,
