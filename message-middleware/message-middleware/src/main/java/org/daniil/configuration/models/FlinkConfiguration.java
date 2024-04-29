@@ -5,9 +5,12 @@ import java.time.Duration;
 public class FlinkConfiguration {
     private int bufferTimeoutMilliseconds = (int)Duration.ofSeconds(10).toMillis();
 
-    private int maxParallelism = 4;
+    private int maxParallelism = 20;
 
     private String jobName = "Rocket updates reordered and deduplicator";
+
+
+    private int checkpointingIntervalMilliseconds = 500;
 
     public int getBufferTimeoutMilliseconds() {
         return bufferTimeoutMilliseconds;
@@ -31,5 +34,13 @@ public class FlinkConfiguration {
 
     public void setJobName(String jobName) {
         this.jobName = jobName;
+    }
+
+    public int getCheckpointingIntervalMilliseconds() {
+        return checkpointingIntervalMilliseconds;
+    }
+
+    public void setCheckpointingIntervalMilliseconds(int checkpointingIntervalMilliseconds) {
+        this.checkpointingIntervalMilliseconds = checkpointingIntervalMilliseconds;
     }
 }

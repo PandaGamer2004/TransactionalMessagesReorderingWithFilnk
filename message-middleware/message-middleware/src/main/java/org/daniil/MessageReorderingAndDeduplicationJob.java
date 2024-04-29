@@ -1,6 +1,7 @@
 package org.daniil;
 
 
+import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.connector.base.DeliveryGuarantee;
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
@@ -8,7 +9,9 @@ import org.apache.flink.connector.kafka.sink.KafkaSink;
 import org.apache.flink.connector.kafka.source.KafkaSource;
 import org.apache.flink.connector.kafka.source.enumerator.initializer.OffsetsInitializer;
 import org.apache.flink.formats.json.JsonDeserializationSchema;
+import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.daniil.configuration.models.FlinkConfiguration;
 import org.daniil.configuration.models.RocketUpdatesKafkaConfiguration;
@@ -68,6 +71,11 @@ public class MessageReorderingAndDeduplicationJob {
 		environment.setBufferTimeout(
 				flinkConfiguration.getBufferTimeoutMilliseconds()
 		);
+		environment.enableCheckpointing(
+				flinkConfiguration.getCheckpointingIntervalMilliseconds()
+		);
+		CheckpointConfig config = environment.getCheckpointConfig();
+		config.setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE);
 
 		return environment;
 	}
