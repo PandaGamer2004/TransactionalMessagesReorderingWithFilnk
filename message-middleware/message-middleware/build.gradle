@@ -45,10 +45,7 @@ repositories {
 configurations {
     flinkShadowJar
 
-    flinkShadowJar.exclude group: 'org.apache.flink', module: 'force-shading'
     flinkShadowJar.exclude group: 'com.google.code.findbugs', module: 'jsr305'
-    flinkShadowJar.exclude group: 'org.slf4j'
-    flinkShadowJar.exclude group: 'org.apache.logging.log4j'
 }
 
 // declare the dependencies for your production and test code
@@ -95,5 +92,7 @@ jar {
 }
 
 shadowJar {
+    archiveFileName = "my-custom-shadow-build.jar"
     configurations = [project.configurations.flinkShadowJar]
+    destinationDirectory = file("$buildDir/my-build-directory")
 }

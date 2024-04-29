@@ -2,7 +2,6 @@ package org.daniil;
 
 
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
-import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.connector.base.DeliveryGuarantee;
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
 import org.apache.flink.connector.kafka.sink.KafkaSink;
@@ -16,16 +15,8 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.daniil.configuration.models.FlinkConfiguration;
 import org.daniil.configuration.models.RocketUpdatesKafkaConfiguration;
 import org.daniil.models.BatchedRocketUpdateModel;
-import org.daniil.models.RocketUpdateFlatModel;
 import org.daniil.models.RocketUpdateModel;
-import org.daniil.processors.BatchAndReorderEventsProcessor;
-import org.daniil.processors.FilterDuplicatedEventsFunction;
 import org.daniil.processors.RocketUpdateModelsProcessor;
-import org.daniil.projectors.FromFlatModelMapper;
-import org.daniil.projectors.ToFlatModelMapper;
-import org.daniil.selectors.ChannelKeySelector;
-
-import java.util.Properties;
 
 
 public class MessageReorderingAndDeduplicationJob {
