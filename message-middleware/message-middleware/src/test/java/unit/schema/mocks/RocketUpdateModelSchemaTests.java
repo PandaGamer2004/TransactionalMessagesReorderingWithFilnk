@@ -1,12 +1,9 @@
-package unit;
+package unit.schema;
 
-import org.apache.flink.api.common.serialization.DeserializationSchema;
-import org.apache.flink.metrics.MetricGroup;
-import org.apache.flink.util.UserCodeClassLoader;
 import org.daniil.models.RocketUpdateModel;
 import org.junit.Assert;
 import org.junit.Test;
-import unit.mocks.InitializationContextMock;
+import unit.schema.mocks.InitializationContextMock;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

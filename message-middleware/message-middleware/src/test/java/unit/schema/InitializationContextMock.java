@@ -1,4 +1,4 @@
-package unit.mocks;
+package unit.schema.mocks;
 
 import org.apache.flink.api.common.serialization.DeserializationSchema;
 import org.apache.flink.metrics.MetricGroup;

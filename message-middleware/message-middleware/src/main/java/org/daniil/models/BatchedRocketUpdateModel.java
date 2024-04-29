@@ -40,13 +40,13 @@ public class BatchedRocketUpdateModel {
     }
 
     public static JsonSerializationSchema<BatchedRocketUpdateModel> getSerializationSchema(){
-       return  new JsonSerializationSchema<BatchedRocketUpdateModel>(() -> {
-            var mapper = JacksonMapperFactory.createObjectMapper();
-            mapper.setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CAMEL_CASE);
-            mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-            mapper.registerModule(new JavaTimeModule());
-            return mapper;
-        });
+       return new JsonSerializationSchema<>(() -> {
+           var mapper = JacksonMapperFactory.createObjectMapper();
+           mapper.setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CAMEL_CASE);
+           mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+           mapper.registerModule(new JavaTimeModule());
+           return mapper;
+       });
     }
 
 }

@@ -65,6 +65,7 @@ public class BatchAndReorderEventsProcessor extends ProcessFunction<RocketUpdate
 
         //Means that we should skip that batch
         if(lowestByOrderEvent.getMessageNumber() > resultLastSendValue + 1){
+            this.rocketUpdateFlatModelState.update(mergedStateValues);
             return;
         }
 
@@ -73,8 +74,8 @@ public class BatchAndReorderEventsProcessor extends ProcessFunction<RocketUpdate
 
         var biggestOrderInBatch
                 = result.incomingBatch
-                    .get(result.incomingBatch.size())
-                    .getMessageNumber();
+                .get(result.incomingBatch.size() -1)
+                .getMessageNumber();
 
         this.lastSendOrderState.update(biggestOrderInBatch);
 
@@ -85,9 +86,9 @@ public class BatchAndReorderEventsProcessor extends ProcessFunction<RocketUpdate
 
         var dataToSuspend
                 = mergedStateValues
-                    .stream()
-                    .skip(result.leftCornerPoint)
-                    .collect(Collectors.toList());
+                .stream()
+                .skip(result.leftCornerPoint)
+                .collect(Collectors.toList());
 
         rocketUpdateFlatModelState.update(dataToSuspend);
 
@@ -112,7 +113,8 @@ public class BatchAndReorderEventsProcessor extends ProcessFunction<RocketUpdate
             RocketUpdateFlatModel lowestByOrderEvent,
             List<RocketUpdateFlatModel> mergedStateValues
     ) {
-        List<RocketUpdateFlatModel> incomingBatch = List.of(lowestByOrderEvent);
+        List<RocketUpdateFlatModel> incomingBatch = new ArrayList<>();
+        incomingBatch.add(lowestByOrderEvent);
 
         int i;
         for (i = 1; i < mergedStateValues.size(); i++) {

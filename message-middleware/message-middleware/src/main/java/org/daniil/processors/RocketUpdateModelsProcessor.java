@@ -5,6 +5,7 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.daniil.models.*;
 import org.daniil.projectors.FromFlatModelMapper;
 import org.daniil.projectors.ToFlatModelMapper;
+import org.daniil.selectors.ChannelKeySelector;
 
 public class RocketUpdateModelsProcessor {
     public DataStream<BatchedRocketUpdateModel> registerProcessing(DataStream<RocketUpdateModel> modelsStream) {
@@ -13,7 +14,7 @@ public class RocketUpdateModelsProcessor {
                         (MapFunction<RocketUpdateModel, RocketUpdateFlatModel>)
                                 rocketUpdateModel -> new ToFlatModelMapper().map(rocketUpdateModel)
                 )
-                .keyBy(RocketUpdateFlatModel::getChannel)
+                .keyBy(new ChannelKeySelector())
                 .filter(new FilterDuplicatedEventsFunction())
                 .process(new BatchAndReorderEventsProcessor(new FromFlatModelMapper()))
                 .name("reordered-and-deduplicator");

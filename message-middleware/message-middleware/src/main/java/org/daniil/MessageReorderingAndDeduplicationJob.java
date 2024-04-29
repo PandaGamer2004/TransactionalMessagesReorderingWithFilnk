@@ -18,6 +18,8 @@ import org.daniil.models.BatchedRocketUpdateModel;
 import org.daniil.models.RocketUpdateModel;
 import org.daniil.processors.RocketUpdateModelsProcessor;
 
+import java.util.Properties;
+
 
 public class MessageReorderingAndDeduplicationJob {
 
@@ -86,6 +88,7 @@ public class MessageReorderingAndDeduplicationJob {
 				= BatchedRocketUpdateModel.getSerializationSchema();
 		return KafkaSink.<BatchedRocketUpdateModel>builder()
 				.setBootstrapServers(configuration.getBootstrapServer())
+				.setKafkaProducerConfig(getKafkaProducerOptions())
 				.setRecordSerializer(
 						KafkaRecordSerializationSchema
 								.builder()
@@ -96,6 +99,17 @@ public class MessageReorderingAndDeduplicationJob {
 				.setDeliveryGuarantee(DeliveryGuarantee.AT_LEAST_ONCE)
 				.build();
 	}
+
+
+	//In most cases idempotent consumer can save as from failures
+	private static Properties getKafkaProducerOptions(){
+		Properties producerProperties = new Properties();
+		producerProperties.put("enable.idempotence", "true");
+		producerProperties.put("retries", Integer.MAX_VALUE);
+		producerProperties.put("acks", "all");
+		return producerProperties;
+	}
+
 	private static KafkaSource<RocketUpdateModel> getKafkaSourceForUpdateModels(
 			RocketUpdatesKafkaConfiguration configuration
 	) {
