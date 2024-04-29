@@ -20,7 +20,7 @@ public class BatchCireModelModificationEventMapper: IMapper<BatchedModificationE
     public OperationResult<BatchedCoreModificationEvent, ErrorModel> Map(BatchedModificationEvent input)
     {
         var traversedMapping =  OperationResult<RocketChangeCoreEvent, ErrorModel>.
-            Travere(input.ChangeEvents, _singleModelMapper.Map);
+            Travere(input.BatchedModels, _singleModelMapper.Map);
 
         return traversedMapping.Map(mappedDomainEvents => new BatchedCoreModificationEvent
         {

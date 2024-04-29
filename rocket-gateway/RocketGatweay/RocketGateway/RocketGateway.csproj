@@ -13,18 +13,11 @@
         <InternalsVisibleTo Include="./RocketGateway.Tests" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="KafkaFlow" Version="3.0.7" />
-        <PackageReference Include="KafkaFlow.LogHandler.Microsoft" Version="3.0.7" />
-        <PackageReference Include="KafkaFlow.Microsoft.DependencyInjection" Version="3.0.7" />
-        <PackageReference Include="KafkaFlow.Serializer.NewtonsoftJson" Version="3.0.7" />
+        <PackageReference Include="MassTransit" Version="8.2.2" />
+        <PackageReference Include="MassTransit.Kafka" Version="8.2.2" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
     </ItemGroup>
 
     <ItemGroup>

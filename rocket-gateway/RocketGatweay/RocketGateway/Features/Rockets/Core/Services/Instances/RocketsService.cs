@@ -1,4 +1,3 @@
-using RocketGateway.Features.Rockets.Core.Models;
 using RocketGateway.Features.Rockets.Core.Models.Events;
 using RocketGateway.Features.Rockets.Core.Services.Interfaces;
 using RocketGateway.Features.Rockets.Framework.Messaging.Producers;
@@ -51,10 +50,7 @@ public class RocketsService: IRocketsService
         );
     }
 
-    public Task<OperationResult<VoidResult, string>> ProcessFilteredEventBatch(
-        FilteredEventsBatch eventsBatch, 
-        CancellationToken ct = default
-        )
+    public Task<OperationResult<VoidResult, string>> ProcessFilteredEvent(BatchedCoreModificationEvent batchedCoreModificationEvent, CancellationToken ct = default)
     {
         throw new NotImplementedException();
     }

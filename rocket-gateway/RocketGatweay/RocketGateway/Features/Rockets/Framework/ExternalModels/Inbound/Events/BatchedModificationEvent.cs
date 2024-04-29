@@ -4,5 +4,5 @@ public class BatchedModificationEvent
 {
     public string ChannelId { get; set; }
 
-    public IEnumerable<RocketChangeEvent> ChangeEvents { get; set; }
+    public IEnumerable<RocketChangeEvent> BatchedModels { get; set; }
 }

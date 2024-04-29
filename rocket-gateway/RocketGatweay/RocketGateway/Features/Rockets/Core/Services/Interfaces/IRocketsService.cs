@@ -11,8 +11,8 @@ public interface IRocketsService
         RocketChangeCoreEvent rocketChangeCoreEvent,
         CancellationToken ct = default);
 
-    public Task<OperationResult<VoidResult, string>> ProcessFilteredEventBatch(
-        FilteredEventsBatch eventsBatch,
-        CancellationToken ct = default);
-
+    public Task<OperationResult<VoidResult, string>> ProcessFilteredEvent(
+        BatchedCoreModificationEvent batchedCoreModificationEvent,
+        CancellationToken ct = default
+    );
 }

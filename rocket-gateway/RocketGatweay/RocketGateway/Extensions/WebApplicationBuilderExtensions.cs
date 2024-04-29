@@ -1,14 +1,10 @@
-using System.Text.Json;
-using Confluent.Kafka;
-using KafkaFlow;
-using KafkaFlow.Serializer;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using MassTransit;
+using MassTransit.KafkaIntegration.Serializers;
 using RocketGateway.Configurations;
-using RocketGateway.Exceptions;
+using RocketGateway.Features.Rockets.Core.Models.Events;
+using RocketGateway.Features.Rockets.Framework.ExternalModels.Inbound.Events;
 using RocketGateway.Features.Rockets.Framework.Messaging.Consumers;
-using RocketGateway.Features.Rockets.Framework.Messaging.Producers;
-using AutoOffsetReset = KafkaFlow.AutoOffsetReset;
+
 
 namespace RocketGateway.Extensions;
 
@@ -30,48 +26,41 @@ public static class WebApplicationBuilderExtensions
                 KafkaConsumerConfiguration.ConfigurationSection
             );
 
-        var kafkaSerializerSettings = new JsonSerializerSettings
+
+        builder.Services.AddMassTransit(o =>
         {
-            ContractResolver = new CamelCasePropertyNamesContractResolver()
-        };
+            o.UsingInMemory();
+            o.AddRider(rider =>
+            {
+
+                rider.AddConsumer<RocketChangeEventBatchConsumer>();
+                rider.AddProducer<string, RocketChangeCoreEvent>(
+                    kafkaProducerConfiguration.Topic,
+                    (ctx, config) =>
+                    {
+                        config.EnableIdempotence = true;
+                    });
+
+                rider.UsingKafka((context, k) =>
+                {
+                    k.Acks = kafkaProducerConfiguration.Acks;
+
+                    k.Host(kafkaConfigurationShared.BootstrapServer);
+
+                    k.TopicEndpoint<BatchedModificationEvent>(kafkaConsumerConfiguration.Topic,
+                        kafkaConsumerConfiguration.GroupId,
+                        e =>
+                        {
+                            e.SetValueDeserializer(
+                                new MassTransitJsonDeserializer<BatchedModificationEvent>()
+                            );
+                            e.AutoOffsetReset = kafkaConsumerConfiguration.AutoOffsetReset;
+                            e.ConfigureConsumer<RocketChangeEventBatchConsumer>(context);
+                        });
+                });
+            });
+        });
         
-        builder.Services
-            .AddKafka(kafka =>
-                kafka.
-                    UseMicrosoftLog()
-                    .AddCluster(
-                        cluster => cluster
-                            .WithBrokers(new[] { kafkaConfigurationShared.BootstrapServer })
-                            .AddConsumer(consumer => 
-                                consumer
-                                    .WithAutoOffsetReset(kafkaConsumerConfiguration.AutoOffsetReset)
-                                    .Topic(kafkaConsumerConfiguration.Topic)
-                                    .WithGroupId(kafkaConsumerConfiguration.GroupId)
-                                    .WithWorkersCount(kafkaConsumerConfiguration.Workers)
-                                    .WithBufferSize(kafkaConsumerConfiguration.BufferSize)
-                                    .AddMiddlewares(m => 
-                                        m.AddDeserializer<NewtonsoftJsonDeserializer>(
-                                            _ => new NewtonsoftJsonDeserializer(kafkaSerializerSettings))
-                                         .AddTypedHandlers(h => h.AddHandler<RocketChangeEventBatchConsumer>())
-                                        )
-                                    
-                                )
-                            .AddProducer(
-                                Producers.RocketMutationEventProducer,
-                                producer => 
-                                    producer
-                                        .AddMiddlewares(middleware => 
-                                            middleware.AddSerializer<NewtonsoftJsonSerializer>(_ => new NewtonsoftJsonSerializer(kafkaSerializerSettings)))
-                                        .WithProducerConfig(new ProducerConfig
-                                        {
-                                            EnableIdempotence = true,
-                                            CompressionType = CompressionType.Gzip,
-                                            Acks = kafkaProducerConfiguration.Acks,
-                                        })
-                                        .DefaultTopic(kafkaProducerConfiguration.Topic)
-                            )
-                    )
-            );
 
         return builder;
     }

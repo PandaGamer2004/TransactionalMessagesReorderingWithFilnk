@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RocketGateway.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a7ec14ac5e2a0a0f7746b3d6dbbe0276e157539a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6de41ecdfb244bb584e61879294849b26cf41ef6")]
 [assembly: System.Reflection.AssemblyProductAttribute("RocketGateway.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RocketGateway.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

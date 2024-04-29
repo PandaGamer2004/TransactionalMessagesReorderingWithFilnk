@@ -7,4 +7,6 @@ public class ErrorCodes
     public const int InvalidPayloadForEventType = 1024;
 
     public const int FailedToProcessEvent = 1025;
+
+    public const int InvalidDependencyConfiguration = 1026;
 }

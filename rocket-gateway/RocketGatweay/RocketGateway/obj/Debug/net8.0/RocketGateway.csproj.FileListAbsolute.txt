@@ -6,12 +6,7 @@
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/RocketGateway.dll
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/RocketGateway.pdb
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/Confluent.Kafka.dll
-/Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/KafkaFlow.dll
-/Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/KafkaFlow.Abstractions.dll
-/Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/KafkaFlow.Microsoft.DependencyInjection.dll
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/Microsoft.AspNetCore.OpenApi.dll
-/Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/Microsoft.Bcl.AsyncInterfaces.dll
-/Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/Microsoft.IO.RecyclableMemoryStream.dll
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/Microsoft.OpenApi.dll
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
@@ -64,6 +59,7 @@
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/obj/Debug/net8.0/RocketGateway.genruntimeconfig.cache
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/obj/Debug/net8.0/ref/RocketGateway.dll
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/appsettings.Production.json
-/Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/KafkaFlow.LogHandler.Microsoft.dll
-/Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/KafkaFlow.Serializer.NewtonsoftJson.dll
 /Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/Newtonsoft.Json.dll
+/Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/MassTransit.dll
+/Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/MassTransit.Abstractions.dll
+/Users/daniil/Desktop/backend-challange/backend-challange/rocket-gateway/RocketGatweay/RocketGateway/bin/Debug/net8.0/MassTransit.KafkaIntegration.dll

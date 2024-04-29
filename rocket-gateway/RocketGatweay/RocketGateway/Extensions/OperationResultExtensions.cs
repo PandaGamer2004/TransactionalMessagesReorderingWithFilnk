@@ -31,6 +31,25 @@ public static class OperationResultExtensions
             operationResult.ErrorModel
         );
     }
+
+    public static Task<OperationResult<TResult, TError>> FlatMapAsync<TInput, TError, TResult>(
+        this OperationResult<TInput, TError> operationResult,
+        Func<TInput, Task<TResult>> projector)
+    {
+        if (operationResult.IsSuccess)
+        {
+            var successModel = operationResult.SuccessModel;
+            return projector(successModel)
+                .ContinueWith(
+                    t => OperationResult<TResult, TError>.CreateSuccess(t.Result),
+                    TaskContinuationOptions.NotOnCanceled | TaskContinuationOptions.NotOnFaulted
+                );
+        }
+
+        return Task.FromResult(OperationResult<TResult, TError>.CreateError(
+            operationResult.ErrorModel
+        ));
+    }
     
     
 }

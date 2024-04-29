@@ -28,7 +28,7 @@ public struct OperationResult<TSuccessModel, TErrorModel>
         => OperationResult<TSuccessModel, TErrorModel>.CreateSuccess(op);
 
     
-    public static OperationResult<IEnumerable<TSuccessModel>, TErrorModel> Travere<TInput>(
+    public static OperationResult<IEnumerable<TSuccessModel>, TErrorModel> Travere<TInput, TSuccessModel, TErrorModel>(
         IEnumerable<TInput> inputs,
         Func<TInput, OperationResult<TSuccessModel, TErrorModel>> projector
     )
@@ -41,5 +41,22 @@ public struct OperationResult<TSuccessModel, TErrorModel>
                 => agg.FlatMap(list => it.Map(list.Prepend)
                 )
         ).Map(it => it.AsEnumerable());
+    }
+
+    public static OperationResult<TResult, TError> FromThrowableOperation<TResult, TError>(
+        Func<TResult> projector,
+        Func<Exception, TError> errorProjector)
+    {
+        try
+        {
+            TResult result = projector();
+            return OperationResult<TResult, TError>
+                .CreateSuccess(result);
+        }
+        catch (Exception ex)
+        {
+            return OperationResult<TResult, TError>
+                .CreateError(errorProjector(ex));
+        }
     }
 }

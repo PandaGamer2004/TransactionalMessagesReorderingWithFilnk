@@ -1,4 +1,3 @@
-using KafkaFlow;
 using Acks = Confluent.Kafka.Acks;
 
 namespace RocketGateway.Configurations;

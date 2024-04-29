@@ -1,15 +1,16 @@
-using KafkaFlow.Producers;
+using MassTransit;
+using MassTransit.KafkaIntegration.Serializers;
 using RocketGateway.Features.Rockets.Core.Models.Events;
 
 namespace RocketGateway.Features.Rockets.Framework.Messaging.Producers;
 
 public class RocketChangeEventProducer: IRocketChangeEventProducer
 {
-    private readonly IProducerAccessor producerAccessor;
+    private readonly ITopicProducer<string, RocketChangeCoreEvent> rocketChangeEventProducer;
 
-    public RocketChangeEventProducer(IProducerAccessor producerAccessor)
+    public RocketChangeEventProducer(ITopicProducer<string, RocketChangeCoreEvent> rocketChangeEventProducer)
     {
-        this.producerAccessor = producerAccessor;
+        this.rocketChangeEventProducer = rocketChangeEventProducer;
     }
 
 
@@ -17,9 +18,14 @@ public class RocketChangeEventProducer: IRocketChangeEventProducer
         RocketChangeCoreEvent rocket
     )
     {
-        var producer = producerAccessor.GetProducer(Features.Rockets.Framework.Messaging.Producers.Producers.RocketMutationEventProducer);
-        return producer.ProduceAsync(
-            rocket.Metadata.Channel,
-            rocket);
+        var configuredPipe = Pipe.Execute<KafkaSendContext<string, RocketChangeCoreEvent>>(context =>
+        {
+            context.KeySerializer
+                = new MassTransitAsyncJsonSerializer<string>();
+            context.ValueSerializer =
+                new MassTransitAsyncJsonSerializer<RocketChangeCoreEvent>();
+        });
+
+        return this.rocketChangeEventProducer.Produce(rocket.Metadata.Channel, rocket, configuredPipe);
     }
 }

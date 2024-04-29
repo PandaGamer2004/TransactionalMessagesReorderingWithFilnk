@@ -38,25 +38,21 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "KafkaFlow": {
+            "MassTransit": {
               "target": "Package",
-              "version": "[3.0.7, )"
+              "version": "[8.2.2, )"
             },
-            "KafkaFlow.LogHandler.Microsoft": {
+            "MassTransit.Kafka": {
               "target": "Package",
-              "version": "[3.0.7, )"
-            },
-            "KafkaFlow.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[3.0.7, )"
-            },
-            "KafkaFlow.Serializer.NewtonsoftJson": {
-              "target": "Package",
-              "version": "[3.0.7, )"
+              "version": "[8.2.2, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[8.0.1, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
