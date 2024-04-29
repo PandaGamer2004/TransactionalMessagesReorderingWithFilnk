@@ -1,7 +1,6 @@
 package org.daniil;
 
 
-import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.connector.base.DeliveryGuarantee;
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
@@ -71,6 +70,7 @@ public class MessageReorderingAndDeduplicationJob {
 		environment.setBufferTimeout(
 				flinkConfiguration.getBufferTimeoutMilliseconds()
 		);
+
 		environment.enableCheckpointing(
 				flinkConfiguration.getCheckpointingIntervalMilliseconds()
 		);
@@ -93,7 +93,7 @@ public class MessageReorderingAndDeduplicationJob {
 								.setTopic(configuration.getOutputTopic())
 								.build()
 				)
-				.setDeliveryGuarantee(DeliveryGuarantee.EXACTLY_ONCE)
+				.setDeliveryGuarantee(DeliveryGuarantee.AT_LEAST_ONCE)
 				.build();
 	}
 	private static KafkaSource<RocketUpdateModel> getKafkaSourceForUpdateModels(

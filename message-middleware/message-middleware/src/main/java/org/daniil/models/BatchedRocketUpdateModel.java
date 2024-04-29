@@ -1,19 +1,24 @@
 package org.daniil.models;
 
 import org.apache.flink.formats.json.JsonSerializationSchema;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.DeserializationFeature;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.MapperFeature;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.SerializationFeature;
+import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.flink.util.jackson.JacksonMapperFactory;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 public class BatchedRocketUpdateModel {
     private String channelId;
 
-    private List<RocketUpdateModel> batchedModels;
+    private RocketUpdateModel[] batchedModels;
 
     public BatchedRocketUpdateModel(
             String channelId,
-            List<RocketUpdateModel> batchedModels
+            RocketUpdateModel[] batchedModels
     ){
         this.channelId = channelId;
         this.batchedModels = batchedModels;
@@ -26,11 +31,11 @@ public class BatchedRocketUpdateModel {
         this.channelId = channelId;
     }
 
-    public List<RocketUpdateModel> getBatchedModels() {
+    public RocketUpdateModel[] getBatchedModels() {
         return batchedModels;
     }
 
-    public void setBatchedModels(List<RocketUpdateModel> batchedModels) {
+    public void setBatchedModels(RocketUpdateModel[] batchedModels) {
         this.batchedModels = batchedModels;
     }
 
@@ -38,6 +43,8 @@ public class BatchedRocketUpdateModel {
        return  new JsonSerializationSchema<BatchedRocketUpdateModel>(() -> {
             var mapper = JacksonMapperFactory.createObjectMapper();
             mapper.setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CAMEL_CASE);
+            mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            mapper.registerModule(new JavaTimeModule());
             return mapper;
         });
     }

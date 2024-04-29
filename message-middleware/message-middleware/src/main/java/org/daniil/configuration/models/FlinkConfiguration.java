@@ -1,9 +1,8 @@
 package org.daniil.configuration.models;
 
-import java.time.Duration;
 
 public class FlinkConfiguration {
-    private int bufferTimeoutMilliseconds = (int)Duration.ofSeconds(10).toMillis();
+    private int bufferTimeoutMilliseconds = 10;
 
     private int maxParallelism = 20;
 
