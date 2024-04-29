@@ -2,9 +2,9 @@ package org.daniil.configuration.models;
 
 
 public class FlinkConfiguration {
-    private int bufferTimeoutMilliseconds = 10;
+    private int bufferTimeoutMilliseconds = 100;
 
-    private int maxParallelism = 20;
+    private int maxParallelism = 120;
 
     private String jobName = "Rocket updates reordered and deduplicator";
 
