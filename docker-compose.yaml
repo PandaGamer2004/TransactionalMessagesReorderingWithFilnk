@@ -12,6 +12,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
   kafka:
+    restart: always
     image: confluentinc/cp-kafka:7.6.1
     hostname: kafka-broker
     container_name: kafka-broker
@@ -39,6 +40,19 @@ services:
       #Configuration properties that are important for kafka ui to analize metrics
       KAFKA_JMX_PORT: 9101
       KAFKA_JMX_HOSTNAME: localhost
+
+  postgres:
+      image: postgres:latest
+      restart: always
+      ports:
+        - "5432:5432"
+      environment:
+        POSTGRES_DB: rocketsdb
+        POSTGRES_PASSWORD: "12345"
+        POSTGRES_USER: root
+      volumes:
+        - pgdata:/var/lib/postgresql/data
+
   flink-jobmanager:
     image: flink:1.19.0-scala_2.12-java11
     hostname: jobmanager
@@ -49,6 +63,8 @@ services:
     command: jobmanager
     ports:
       - 8081:8081
+    profiles:
+      - flink-session
     environment:
       FLINK_PROPERTIES: 
         |
@@ -62,6 +78,8 @@ services:
     command: taskmanager
     networks:
       - flink-network
+    profiles:
+      - flink-session
     environment:
       FLINK_PROPERTIES:
         |
@@ -70,3 +88,6 @@ services:
   
 networks:
   flink-network:
+
+volumes:
+  pgdata:

@@ -43,6 +43,22 @@ public struct OperationResult<TSuccessModel, TErrorModel>
         ).Map(it => it.AsEnumerable());
     }
 
+    public static async Task<OperationResult<TResult, TError>> FromThrowableAsyncOperation<TResult, TError>(
+        Func<Task<TResult>> projector,
+        Func<Exception, TError> errorProjector)
+    {
+        try
+        {
+            TResult operationResult = await projector();
+            return OperationResult<TResult, TError>.CreateSuccess(operationResult);
+        }
+        catch (Exception ex)
+        {
+            return OperationResult<TResult, TError>.CreateError(
+                errorProjector(ex)
+                );
+        }
+    }
     public static OperationResult<TResult, TError> FromThrowableOperation<TResult, TError>(
         Func<TResult> projector,
         Func<Exception, TError> errorProjector)

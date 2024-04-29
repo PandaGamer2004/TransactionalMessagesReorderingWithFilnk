@@ -1,3 +1,4 @@
+using RocketGateway.Features.Rockets.Core.Aggregates;
 using RocketGateway.Features.Rockets.Core.Models;
 using RocketGateway.Features.Rockets.Core.Models.Events;
 using RocketGateway.Features.Shared.Models;
@@ -15,4 +16,8 @@ public interface IRocketsService
         BatchedCoreModificationEvent batchedCoreModificationEvent,
         CancellationToken ct = default
     );
+
+    public Task<OperationResult<RocketAggregate, string>> GetRocketById(RocketId rocketId, CancellationToken ct = default);
+
+    public Task<OperationResult<IEnumerable<RocketAggregate>, string>> GetRockets(CancellationToken ct = default);
 }

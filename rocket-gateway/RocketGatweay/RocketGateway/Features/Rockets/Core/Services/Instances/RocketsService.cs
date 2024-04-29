@@ -84,4 +84,13 @@ public class RocketsService: IRocketsService
             patchedRocket => rocketRepository.Store(patchedRocket, ct)
         );
     }
+
+    public Task<OperationResult<RocketAggregate, string>> GetRocketById(RocketId rocketId,
+        CancellationToken ct = default)
+        => this.rocketRepository.LoadRocketBy(rocketId, ct);
+
+
+    public Task<OperationResult<IEnumerable<RocketAggregate>, string>> GetRockets(CancellationToken ct = default)
+        => this.rocketRepository.LoadRockets();
+
 }

@@ -2,6 +2,7 @@ using RocketGateway.Extensions;
 using RocketGateway.Features.Rockets.Core.Models;
 using RocketGateway.Features.Rockets.Core.Models.Events;
 using RocketGateway.Features.Rockets.Core.Models.Messages;
+using RocketGateway.Features.Rockets.Core.State;
 using RocketGateway.Features.Shared.Models;
 using RocketGateway.Features.Shared.Results;
 
@@ -12,17 +13,39 @@ namespace RocketGateway.Features.Rockets.Core.Aggregates;
 public class RocketAggregate
 {
     //By fact is aggregate id
-    public RocketId Id { get; set; }
+    private RocketId Id { get; set; }
 
-    public string Type { get; set; }
+    private string Type { get; set; }
 
-    public int LaunchSpeed { get; set; }
+    private int LaunchSpeed { get; set; }
 
-    public string Mission { get; set; }
+    private string Mission { get; set; }
 
-    public string ExplodedReason { get; set; }
+    private string ExplodedReason { get; set; }
 
-    public bool WasExploded { get; set; }
+    private bool WasExploded { get; set; }
+
+
+    public RocketAggregateState State => new RocketAggregateState
+    {
+        Id = Id,
+        ExplodedReason = ExplodedReason,
+        WasExploded = WasExploded,
+        LaunchSpeed = LaunchSpeed,
+        Mission = Mission,
+        Type = Type
+    };
+
+    public static RocketAggregate FromExternalState(RocketAggregateState state)
+        => new RocketAggregate
+        {
+            Id = state.Id,
+            ExplodedReason = state.ExplodedReason,
+            WasExploded = state.WasExploded,
+            LaunchSpeed = state.LaunchSpeed,
+            Mission = state.Mission,
+            Type = state.Type,
+        };
     
     //Should i call it events? Or commands are more suitable for it
     public OperationResult<VoidResult, string> Apply(RocketChangeCoreEvent rocketChangeCoreEvent)
