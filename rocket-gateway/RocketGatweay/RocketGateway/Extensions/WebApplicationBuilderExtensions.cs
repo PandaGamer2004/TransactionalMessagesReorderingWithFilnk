@@ -2,6 +2,8 @@ using System.Text.Json;
 using Confluent.Kafka;
 using KafkaFlow;
 using KafkaFlow.Serializer;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using RocketGateway.Configurations;
 using RocketGateway.Exceptions;
 using RocketGateway.Messaging.Producers;
@@ -39,8 +41,10 @@ public static class WebApplicationBuilderExtensions
                                 producer => 
                                     producer
                                         .AddMiddlewares(middleware => 
-                                            middleware.AddSerializer<NewtonsoftJsonSerializer>()
-                                            )
+                                            middleware.AddSerializer<NewtonsoftJsonSerializer>(_ => new NewtonsoftJsonSerializer(new JsonSerializerSettings
+                                            {
+                                                ContractResolver = new CamelCasePropertyNamesContractResolver()
+                                            })))
                                         .WithProducerConfig(new ProducerConfig
                                         {
                                             EnableIdempotence = true,
