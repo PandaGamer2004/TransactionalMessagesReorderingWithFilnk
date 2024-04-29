@@ -9,6 +9,7 @@ import org.apache.flink.streaming.util.OneInputStreamOperatorTestHarness;
 import org.daniil.models.RocketUpdateFlatModel;
 import org.daniil.processors.FilterDuplicatedEventsFunction;
 import org.daniil.selectors.ChannelKeySelector;
+import org.daniil.utils.RocketUpdateFlatModelUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,13 +43,13 @@ public class FilterDuplicateEventsProcessorTests {
 
         String channel = "channel1";
         String type = "change";
-        var event1 = new RocketUpdateFlatModel(
+        var event1 =  RocketUpdateFlatModelUtils.createRocketUpdateFlatModel(
                 messageNode,
                 channel,
                 1,
                 OffsetDateTime.now(),
                 type);
-        var event2 = new RocketUpdateFlatModel(
+        var event2 = RocketUpdateFlatModelUtils.createRocketUpdateFlatModel(
                 messageNode,
                 channel,
                 2,
@@ -68,7 +69,7 @@ public class FilterDuplicateEventsProcessorTests {
 
         String channel = "channel1";
         String type = "change";
-        var event1 = new RocketUpdateFlatModel(
+        var event1 = RocketUpdateFlatModelUtils.createRocketUpdateFlatModel(
                 messageNode,
                 channel,
                 1,

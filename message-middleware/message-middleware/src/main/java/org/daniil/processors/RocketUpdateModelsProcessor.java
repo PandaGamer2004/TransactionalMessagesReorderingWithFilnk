@@ -2,6 +2,7 @@ package org.daniil.processors;
 
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.streaming.api.datastream.DataStream;
+import org.checkerframework.checker.units.qual.C;
 import org.daniil.models.*;
 import org.daniil.projectors.FromFlatModelMapper;
 import org.daniil.projectors.ToFlatModelMapper;
@@ -16,7 +17,8 @@ public class RocketUpdateModelsProcessor {
                 )
                 .keyBy(new ChannelKeySelector())
                 .filter(new FilterDuplicatedEventsFunction())
-                .process(new BatchAndReorderEventsProcessor(new FromFlatModelMapper()))
+                .keyBy(new ChannelKeySelector())
+                .process(new BatchAndReorderEventsProcessor())
                 .name("reordered-and-deduplicator");
         return resultStream;
     }

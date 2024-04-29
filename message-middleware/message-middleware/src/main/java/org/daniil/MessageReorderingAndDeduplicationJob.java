@@ -2,6 +2,7 @@ package org.daniil;
 
 
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
+import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.connector.base.DeliveryGuarantee;
 import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
 import org.apache.flink.connector.kafka.sink.KafkaSink;
@@ -15,8 +16,14 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.daniil.configuration.models.FlinkConfiguration;
 import org.daniil.configuration.models.RocketUpdatesKafkaConfiguration;
 import org.daniil.models.BatchedRocketUpdateModel;
+import org.daniil.models.RocketUpdateFlatModel;
 import org.daniil.models.RocketUpdateModel;
+import org.daniil.processors.BatchAndReorderEventsProcessor;
+import org.daniil.processors.FilterDuplicatedEventsFunction;
 import org.daniil.processors.RocketUpdateModelsProcessor;
+import org.daniil.projectors.FromFlatModelMapper;
+import org.daniil.projectors.ToFlatModelMapper;
+import org.daniil.selectors.ChannelKeySelector;
 
 import java.util.Properties;
 
@@ -47,12 +54,9 @@ public class MessageReorderingAndDeduplicationJob {
 
 
 		var rocketModelsProcessor = new RocketUpdateModelsProcessor();
-		var outboundStream = rocketModelsProcessor
-				.registerProcessing(rocketUpdateModelStream);
-
-		outboundStream.sinkTo(
-				batchedRocketUpdateModelsSync
-		);
+		rocketModelsProcessor.
+				registerProcessing(rocketUpdateModelStream)
+				.sinkTo(batchedRocketUpdateModelsSync);
 
 		executionEnvironment.execute(
 				kafkaConfig.getJobName()
@@ -88,7 +92,6 @@ public class MessageReorderingAndDeduplicationJob {
 				= BatchedRocketUpdateModel.getSerializationSchema();
 		return KafkaSink.<BatchedRocketUpdateModel>builder()
 				.setBootstrapServers(configuration.getBootstrapServer())
-				.setKafkaProducerConfig(getKafkaProducerOptions())
 				.setRecordSerializer(
 						KafkaRecordSerializationSchema
 								.builder()
@@ -101,14 +104,6 @@ public class MessageReorderingAndDeduplicationJob {
 	}
 
 
-	//In most cases idempotent consumer can save as from failures
-	private static Properties getKafkaProducerOptions(){
-		Properties producerProperties = new Properties();
-		producerProperties.put("enable.idempotence", "true");
-		producerProperties.put("retries", Integer.MAX_VALUE);
-		producerProperties.put("acks", "all");
-		return producerProperties;
-	}
 
 	private static KafkaSource<RocketUpdateModel> getKafkaSourceForUpdateModels(
 			RocketUpdatesKafkaConfiguration configuration

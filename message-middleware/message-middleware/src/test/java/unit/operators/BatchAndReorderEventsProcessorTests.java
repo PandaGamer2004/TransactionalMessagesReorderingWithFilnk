@@ -13,6 +13,7 @@ import org.daniil.models.RocketUpdateFlatModelSupplier;
 import org.daniil.processors.BatchAndReorderEventsProcessor;
 import org.daniil.projectors.FromFlatModelMapper;
 import org.daniil.selectors.ChannelKeySelector;
+import org.daniil.utils.RocketUpdateFlatModelUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,12 +33,12 @@ public class BatchAndReorderEventsProcessorTests {
         this.messageNode = new ObjectMapper()
                 .readTree( "{\"by\": \"3000\"}");
 
-        this.updateModelSupplier = num -> new RocketUpdateFlatModel(
+        this.updateModelSupplier = num -> RocketUpdateFlatModelUtils.createRocketUpdateFlatModel(
                 messageNode, "channel-1", num, OffsetDateTime.now(), "sample-type"
         );
 
         this.rocketUpdateStream = new KeyedOneInputStreamOperatorTestHarness<>(
-                new ProcessOperator<>(new BatchAndReorderEventsProcessor(new FromFlatModelMapper())),
+                new ProcessOperator<>(new BatchAndReorderEventsProcessor()),
                 new ChannelKeySelector(),
                 Types.STRING
         );
@@ -49,7 +50,7 @@ public class BatchAndReorderEventsProcessorTests {
 
     public Iterable<Stream<RocketUpdateFlatModel>> fromTuples(Tuple2<Integer, Integer>... definition){
         return Arrays
-                .stream(definition).map(it -> RocketUpdateFlatModel.initStream(it.f0, it.f1, updateModelSupplier))
+                .stream(definition).map(it -> RocketUpdateFlatModelUtils.initStream(it.f0, it.f1, updateModelSupplier))
                 .collect(Collectors.toList());
     }
     @Test
@@ -87,7 +88,7 @@ public class BatchAndReorderEventsProcessorTests {
     public void shouldEmitOnlyOneBatchDuringOutOfOrderExecution() throws Exception {
 
         //Basically getting each third message of the stream
-        var projectedStream = RocketUpdateFlatModel.initStream(
+        var projectedStream = RocketUpdateFlatModelUtils.initStream(
                         1, 11, updateModelSupplier
                 )
                 .filter(it -> it.getMessageNumber() == 1 || it.getMessageNumber() % 3 == 0);

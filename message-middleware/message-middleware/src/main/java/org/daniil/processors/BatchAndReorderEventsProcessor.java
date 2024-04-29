@@ -24,11 +24,7 @@ public class BatchAndReorderEventsProcessor extends ProcessFunction<RocketUpdate
 
     private transient ValueState<Integer> lastSendOrderState;
 
-    private transient FromFlatModelMapper fromFlatModelMapper;
-
-
-    public BatchAndReorderEventsProcessor(FromFlatModelMapper fromFlatModelMapper){
-        this.fromFlatModelMapper = fromFlatModelMapper;
+    public BatchAndReorderEventsProcessor(){
     }
     @Override
     public void open(OpenContext openContext) throws Exception {
@@ -96,9 +92,10 @@ public class BatchAndReorderEventsProcessor extends ProcessFunction<RocketUpdate
     }
 
     private BatchedRocketUpdateModel getBatchedRocketUpdateModel(String channelId, ContiniousBatchWithPosition result) {
+        var mapper = new FromFlatModelMapper();
         var projectedBatch = result.incomingBatch
                 .stream()
-                .map(flatModel -> fromFlatModelMapper.map(flatModel))
+                .map(flatModel -> mapper.map(flatModel))
                 .toArray(RocketUpdateModel[]::new);
 
 
